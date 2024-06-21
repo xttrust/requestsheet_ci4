@@ -11,11 +11,11 @@
 
 	<meta property="og:title" content="DarkStar - The Ultimate Dark HTML Template"/>
 	<meta property="og:description" content="Superior Dark Multipurpose Theme · $235 Added Value · Stunning Effects & Clean Code · Build a Website Today with DarkStar!"/>
-	<meta property="og:image" content="assets/images/facebook-post-image-default.jpg"/>
+	<meta property="og:image" content="assets/images/facebook-post-image-browsers.jpg"/>
 
 	<meta property="og:site_name" content="SkilltechWebDesign.com"/>
 
-	<title>DarkStar | Home</title>
+	<title>DarkStar | Home | Parallax Strips Hero</title>
 
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
 	<link rel="apple-touch-icon-precomposed" type="image/x-icon" href="assets/images/apple-touch-icon-72x72-precomposed.png" sizes="72x72" />
@@ -54,7 +54,7 @@
 
 </head>
 
-<body class="sk__homepage sk__home-combo-slider dark-shade-1-bg">
+<body class="sk__homepage sk__home-hero-image dark-shade-1-bg ">
 
 	<main id="primary" class="site-main">
 
@@ -74,7 +74,7 @@
 		================================================== -->
 		<div class="sk__mobile-menu-bar"></div>
 
-		<!-- Mobile Menu Logo -->
+		<!-- Dynamically controlled with JS! -->
 		<a class="sk__mobile-main-logo" href="#"><img alt="Website logo." src="assets/images/logo-normal.png"></a>
 
 		<nav id="main-nav" style="opacity: 0;" class="sk__menu navbar sk__navbar navbar-expand-lg navbar-dark static-top">
@@ -272,33 +272,34 @@
 				================================================== -->
 				<section class="sk__hero-section">
 					<!-- Carousel -->
-					<div id="sk__hero-carousel-slider" class="carousel slide dark-shade-1-bg">
-				
-						<!-- Hero Dots Navigation Bootstrap 5 -->
-						<div class="carousel-indicators">
-							<button type="button" data-bs-target="#sk__hero-carousel-slider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-							<button type="button" data-bs-target="#sk__hero-carousel-slider" data-bs-slide-to="1" aria-label="Slide 2"></button>
-							<button type="button" data-bs-target="#sk__hero-carousel-slider" data-bs-slide-to="2" aria-label="Slide 3"></button>
-							<button type="button" data-bs-target="#sk__hero-carousel-slider" data-bs-slide-to="3" aria-label="Slide 4"></button>
-						</div>
+					<div id="sk__hero-carousel-slider" class="sk__static-carousel-slider carousel slide dark-shade-1-bg">
 				
 						<!-- Slides -->
 						<div class="carousel-inner">
 
 							<!-- Slide 1 -->
-							<div class="carousel-item zooming active hero-slide-1 sk__hero-slider-item sk__image-back-cover">
+							<div class="carousel-item active hero-slide-1 sk__hero-slider-item sk__image-back-cover">
+
+								<div class="sk__hero-parallax-strip-vertical sk__image-back-cover" data-sk-speed="1" style="background-image: url(assets/images/parallax-strip-01.webp);"></div>
+								<div class="sk__hero-parallax-strip-vertical sk__image-back-cover" data-sk-speed="3" style="background-image: url(assets/images/parallax-strip-02.jpg);"></div>
+								<div class="sk__hero-parallax-strip-vertical sk__image-back-cover" data-sk-speed="5" style="background-image: url(assets/images/parallax-strip-03.webp);"></div>
+								<div class="sk__hero-parallax-strip-vertical sk__image-back-cover" data-sk-speed="7" style="background-image: url(assets/images/parallax-strip-04.webp);"></div>
+								<div class="sk__hero-parallax-strip-vertical sk__image-back-cover" data-sk-speed="8" style="background-image: url(assets/images/parallax-strip-05.webp);"></div>
+								<div class="sk__hero-parallax-strip-vertical sk__image-back-cover" data-sk-speed="10" style="background-image: url(assets/images/parallax-strip-06.webp);"></div>
+
+								<div class="sk__tint sk__absolute sk__z0"></div>
 
 								<section class="sk__parallax-background-section sk__hero-item-theme-style">
 									
 									<!-- Parallax background -->
-									<div class="sk__parallax-background-element sk__absolute sk__image-back-cover" style="background-image: url(assets/images/hero-image-01.webp);"></div>
+									<div class="sk__parallax-background-element sk__absolute sk__image-back-cover"></div>
 
 									<div class="flex-helper-div"></div>
 									
 									<!-- Main hero heading -->
 									<div class="hero-h1-box">
 										<div class="cover-text-wrapper">
-											<h1 class="hero-h1 animated-element phase-1 text-center text-md-start text-white">Dark&#8198;star<br /> Theme<br /> is Here</h1>
+											<h1 class="hero-h1 animated-element phase-1 text-center text-md-start text-white">Multi<br /> Parallax<br /> Strips</h1>
 										</div>
 									</div>
 
@@ -308,7 +309,7 @@
 										<a class="btn btn-outline-light animated-element phase-1 mb-4" href="#about-us" role="button">OPEN PROJECT</a>
 										
 										<div class="cover-text-wrapper">
-											<h3 class="animated-element phase-1 text-center text-sm-start text-white">ADVANCEMENT IN <strong>DESIGN</strong></h3>
+											<h3 class="animated-element phase-1 text-center text-sm-start text-white">INDEPENDENT <strong>SPEEDS</strong></h3>
 										</div>
 
 										<div class="cover-text-wrapper">
@@ -332,144 +333,9 @@
 								</section>
 							</div>
 							<!-- /.hero-slide-1 -->
-
-							<!-- Slide 2 -->
-							<div class="carousel-item zooming hero-slide-2 sk__hero-slider-item sk__image-back-cover">
-
-								<section class="sk__video-background-section sk__hero-item-theme-style">
-									
-									<!-- Video background -->
-									<div class="sk__video-container sk__parallax-hero-video sk__absolute sk__image-back-cover">
-										<div class="sk__pattern-overlay" style="opacity: 37%;"></div>
-										<div class="sk__absolute sk__gradient-back-v1" style="opacity: 0;"></div>
-										<video class="sk__video" preload="none" poster="assets/video/hero-video-main.webp" autoplay="" loop="" muted="" playsinline="">
-											<source src="assets/video/hero-video-main.mp4" type="video/mp4">Your browser does not support HTML5 video.
-										</video>
-									</div>
-
-									<div class="flex-helper-div"></div>
-									
-									<!-- Main hero heading -->
-									<div class="hero-h1-box">
-										<div class="cover-text-wrapper">
-											<h1 class="hero-h1 animated-element phase-1 text-center text-md-start text-white">Skilltech<br /> Quality<br /> Design</h1>
-										</div>
-									</div>
-
-									<!-- Bottom Left box -->
-									<div class="hero-box-bottom-left text-center text-sm-start">
-
-										<a class="btn btn-outline-light animated-element phase-1 mb-4" href="#" role="button">OPEN PROJECT</a>
-										
-										<div class="cover-text-wrapper">
-											<h3 class="animated-element phase-1 text-center text-sm-start text-white">SUPER PARALLAX <strong>THEME</strong></h3>
-										</div>
-
-										<div class="cover-text-wrapper">
-											<p class="hero-box-p animated-element phase-1 text-center text-sm-start text-white">Salvia vape blue bottle bespoke wolf celiac quinoa cloud bread letterpress hammock photo booth. Palo santo vexillologist venmo shaman pitchfork tote bag.</p>
-										</div>
-									</div>
-
-									<!-- Bottom Right Box -->
-									<div class="hero-box-bottom-right text-center text-sm-start">
-										<div class="cover-text-wrapper">
-											<span class="big-abbreviated-heading animated-element phase-2 text-white">SKTECH</span>
-										</div>
-										<div class="cover-text-wrapper">
-											<p class="animated-element phase-2 text-white">Follow the white rabbit Neo, and you’ll end up in Darkshade</p>
-										</div>
-										<div class="cover-text-wrapper">
-											<h4 class="animated-element phase-2 text-white">BLAZING FAST</h4>
-										</div>
-									</div>
-
-								</section>
-							</div>
-							<!-- /.hero-slide-2 -->
-
-							<!-- Slide 3 -->
-							<div class="carousel-item zooming hero-slide-3 sk__hero-slider-item sk__image-back-cover">
-								<section class="sk__parallax-background-section sk__hero-item-theme-style">
-									
-									<!-- Parallax background -->
-									<div class="sk__parallax-background-element sk__absolute sk__image-back-cover" style="background-image: url(assets/images/hero-image-03.webp);"></div>
-
-									<div class="flex-helper-div"></div>
-									
-									<!-- Main hero heading -->
-									<div class="hero-h1-box">
-										<div class="cover-text-wrapper">
-											<h1 class="hero-h1 animated-element phase-1 text-center text-md-start text-white">Premium<br /> Effects<br /> Included</h1>
-										</div>
-									</div>
-
-									<!-- Bottom Left box -->
-									<div class="hero-box-bottom-left text-center text-sm-start">
-
-										<a class="btn btn-outline-light animated-element phase-1 mb-4" href="#" role="button">OPEN PROJECT</a>
-										
-										<div class="cover-text-wrapper">
-											<h3 class="animated-element phase-1 text-center text-sm-start text-white">SUPER PARALLAX <strong>THEME</strong></h3>
-										</div>
-
-										<div class="cover-text-wrapper">
-											<p class="hero-box-p animated-element phase-1 text-center text-sm-start text-white">Salvia vape blue bottle bespoke wolf celiac quinoa cloud bread letterpress hammock photo booth. Palo santo vexillologist venmo shaman pitchfork tote bag.</p>
-										</div>
-									</div>
-
-									<!-- Bottom Right Box -->
-									<div class="hero-box-bottom-right text-center text-sm-start">
-										<div class="cover-text-wrapper">
-											<span class="big-abbreviated-heading animated-element phase-2 text-white">SKTECH</span>
-										</div>
-										<div class="cover-text-wrapper">
-											<p class="animated-element phase-2 text-white">Follow the white rabbit Neo, and you’ll end up in Darkshade</p>
-										</div>
-										<div class="cover-text-wrapper">
-											<h4 class="animated-element phase-2 text-white">BLAZING FAST</h4>
-										</div>
-									</div>
-
-								</section>
-							</div>
-							<!-- /.hero-slide-3 -->
-
-							<!-- Slide 4 -->
-							<div class="carousel-item zooming hero-slide-4 sk__hero-slider-item sk__image-back-cover">
-								<section class="sk__parallax-background-section sk__hero-item-center-center">
-									<div class="sk__parallax-background-element sk__absolute sk__image-back-cover" style="background-image: url(assets/images/hero-image-04.webp);"></div>
-
-									<!-- Hero content -->
-									<div class="mb-2 text-center">
-										<span class="animated-element phase-1"></span>
-										<span class="animated-element phase-1"></span>
-										<div class="cover-text-wrapper">
-											<h1 class="hero-h1 animated-element phase-1">Start Exploring Dark&#8198;star</h1>
-										</div>
-										<div class="cover-text-wrapper">
-											<h2 class="h2-regular thin animated-element phase-1">Salvia vape blue bottle bespoke wolf celiac quinoa cloud bread letterpress hammock.</h2>
-										</div>
-										<div class="cover-text-wrapper">
-											<a class="btn btn-lg btn-outline-light animated-element phase-1" href="#" role="button">SOME LINK -></a>
-										</div>
-									</div>
-
-								</section>
-							</div>
-							<!-- /.hero-slide-4 -->
 				
 						</div>
-
-						<!-- Arrows Bootstrap 5 -->
-						<button class="carousel-control-prev" type="button" data-bs-target="#sk__hero-carousel-slider" data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Previous</span>
-						</button>
-						<button class="carousel-control-next" type="button" data-bs-target="#sk__hero-carousel-slider" data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Next</span>
-						</button>
-
+						
 					</div>
 					<!-- /#sk__hero-carousel-slider -->
 				</section>
@@ -486,7 +352,7 @@
 				<section class="sk__rings-section sk__image-back-cover dark-shade-1-bg overflow-hidden">
 
 					<!-- parallax area -->
-					<div id="sk__parallax-layers-1" class="container sk__full-height position-relative hue-rotator duration-2s">
+					<div id="sk__parallax-layers-1" class="container sk__full-height position-relative">
 						<!-- gradient ring 1 -->
 						<div data-depth="1.20" class="sk__absolute">
 							<div class="sk__flex-center ring-l-container sk__absolute">
@@ -550,55 +416,74 @@
 
 					</div>
 					<!-- /#sk__parallax-layers-1 -->
-					
+
 				</section>
 				<!-- /.sk__rings-section -->
 
 
-				<!-- Numbers Section (Animated Counters)
+				<!-- Features section
 				================================================== -->
-				<section class="sk__numbers-section dark-shade-3-bg sk__solid-menu-bar">
-					<div class="container-fluid">
-						<div class="row sk__numbers-row text-center">
-							<div class="col-6 col-sm-4 col-md counters-wrap sk__flex-center">
-								<div class="flex-child">
-									<span class="sk__counter" data-gsap-counter-number="157">0</span>
-									<p>Clients</p>
-									<span class="numbers-deco sk__absolute"></span>
+				<section class="sk__features-section sk__py-l sk__edge-beauty position-relative">
+					<div class="container sk__supercontainer">
+						<div class="row sk__featureboxes">
+							<div class="col text-center sk__heading-spacer-s">
+								<div class="cover-text-wrapper">
+									<div class="fancy-gradient-text-box">
+										<h1 class="super-heading sk__gradient-fancy-text mb-2 mb-sm-0 mb-xxl-2">Features</h1>
+									</div>
+								</div>
+								<h2 class="h2-large sk__fade-in-6">Clean & beautiful <strong>image</strong> features.</h2>
+							</div>
+						</div>
+						<div class="row sk__featureboxes sk__featureboxes-image-style">
+							<div class="col-6 col-sm-4 col-lg-2 sk__featurebox-col text-center">
+								<div class="sk__featurebox">
+									<div class="sk__featurebox-headwrap sk__image-back-cover" style="background-image: url(assets/images/image-feature-01.webp);"></div>
+									<h5>Beautiful design form</h5>
 								</div>
 							</div>
-							<div class="col-6 col-sm-4 col-md counters-wrap sk__flex-center">
-								<div class="flex-child">
-									<span class="sk__counter" data-gsap-counter-number="3918">0</span>
-									<p>Projects</p>
-									<span class="numbers-deco sk__absolute"></span>
+							<div class="col-6 col-sm-4 col-lg-2 sk__featurebox-col text-center">
+								<div class="sk__featurebox">
+									<div class="sk__featurebox-headwrap sk__image-back-cover" style="background-image: url(assets/images/image-feature-02.webp);"></div>
+									<h5>Beautiful design form</h5>
 								</div>
 							</div>
-							<div class="col-6 col-sm-4 col-md counters-wrap sk__flex-center">
-								<div class="flex-child">
-									<span class="sk__counter" data-gsap-counter-number="19">0</span>
-									<p>Awards</p>
-									<span class="numbers-deco sk__absolute"></span>
+							<div class="col-6 col-sm-4 col-lg-2 sk__featurebox-col text-center">
+								<div class="sk__featurebox">
+									<div class="sk__featurebox-headwrap sk__image-back-cover" style="background-image: url(assets/images/image-feature-03.webp);"></div>
+									<h5>Beautiful design form</h5>
 								</div>
 							</div>
-							<div class="col-6 col-sm-4 col-md counters-wrap sk__flex-center">
-								<div class="flex-child">
-									<span class="sk__counter" data-gsap-counter-number="484">0</span>
-									<p>Partners</p>
-									<span class="numbers-deco sk__absolute"></span>
+							<div class="col-6 col-sm-4 col-lg-2 sk__featurebox-col text-center">
+								<div class="sk__featurebox">
+									<div class="sk__featurebox-headwrap sk__image-back-cover" style="background-image: url(assets/images/image-feature-04.webp);"></div>
+									<h5>Beautiful design form</h5>
 								</div>
 							</div>
-							<div class="col-6 col-sm-4 col-md counters-wrap sk__flex-center">
-								<div class="flex-child">
-									<span class="sk__counter" data-gsap-counter-number="73">0</span>
-									<p>Apps Developed</p>
-									<span class="numbers-deco sk__absolute"></span>
+							<div class="col-6 col-sm-4 col-lg-2 sk__featurebox-col text-center">
+								<div class="sk__featurebox">
+									<div class="sk__featurebox-headwrap sk__image-back-cover" style="background-image: url(assets/images/image-feature-05.webp);"></div>
+									<h5>Beautiful design form</h5>
+								</div>
+							</div>
+							<div class="col-6 col-sm-4 col-lg-2 sk__featurebox-col text-center">
+								<div class="sk__featurebox">
+									<div class="sk__featurebox-headwrap sk__image-back-cover" style="background-image: url(assets/images/image-feature-06.webp);"></div>
+									<h5>Beautiful design form</h5>
 								</div>
 							</div>
 						</div>
 					</div>
 				</section>
 				<!-- /.sk__numbers-section -->
+
+
+
+				<section class="sk__deco-row-section">
+					<div class="container-fluid">
+						<div class="row sk__deco-row dark-shade-7-bg dark-shade-5-border"></div>
+					</div>
+				</section>
 
 
 				<!-- About Us Section
@@ -669,7 +554,6 @@
 						</div>
 					</div>
 
-
 					<!-- Partners Section
 					================================================== -->
 					<div class="sk__partners-section">
@@ -700,10 +584,9 @@
 						</div>
 					</div>
 					<!-- /.sk__partners-section -->
-					
+
 				</section>
 				<!-- /.sk__about-us-section -->
-
 
 
 				<section class="sk__deco-row-section">
@@ -711,7 +594,6 @@
 						<div class="row sk__deco-row dark-shade-7-bg dark-shade-5-border"></div>
 					</div>
 				</section>
-
 
 
 				<!-- Portfolio Section
@@ -874,7 +756,6 @@
 				<!-- /.sk__portfolio-section -->
 
 
-
 				<!-- Featured Project Section
 				================================================== -->
 				<section class="sk__featured-project-section sk__parallax-background-section dark-shade-2-bg sk__flex">
@@ -924,91 +805,6 @@
 				<!-- /.sk__featured-project-section -->
 
 				<div class="dark-shade-2-bg featured-project-padder"></div>
-
-
-
-				<!-- Features Section
-				================================================== -->
-				<section class="sk__features-section sk__py-s dark-shade-3-bg text-center text-sm-start">
-					<div class="container sk__supercontainer">
-						<div class="row sk__heading-spacer-s">
-							<div class="col">
-								<h4 class="h4-shadow">features.</h4>
-								<span class="fat-divider dark-shade-4-bg"></span>
-							</div>
-						</div>
-						<div class="row sk__features">
-							<div class="col-x1-12 col-sm-6 col-md-4 sk__feature-col">
-								<div class="sk__feature">
-									<h5>There are no boundaries.</h5>
-									<div class="colorline-deco">
-										<div class="colorline-deco-normal sk__absolute"></div>
-										<div class="colorline-deco-hover sk__absolute sk__gradient-back-v1"></div>
-									</div>
-									<p>Salvia vape blue bottle bespoke wolf celiac quinoa cloud bread letterpress hammock photo booth. Palo santo vexillologist venmo shaman.</p>
-								</div>
-							</div>
-							<div class="col-x1-12 col-sm-6 col-md-4 sk__feature-col">
-								<div class="sk__feature">
-									<h5>There are no boundaries.</h5>
-									<div class="colorline-deco">
-										<div class="colorline-deco-normal sk__absolute"></div>
-										<div class="colorline-deco-hover sk__absolute sk__gradient-back-v1"></div>
-									</div>
-									<p>Salvia vape blue bottle bespoke wolf celiac quinoa cloud bread letterpress hammock photo booth. Palo santo vexillologist venmo shaman.</p>
-								</div>
-							</div>
-							<div class="col-x1-12 col-sm-6 col-md-4 sk__feature-col">
-								<div class="sk__feature">
-									<h5>There are no boundaries.</h5>
-									<div class="colorline-deco">
-										<div class="colorline-deco-normal sk__absolute"></div>
-										<div class="colorline-deco-hover sk__absolute sk__gradient-back-v1"></div>
-									</div>
-									<p>Salvia vape blue bottle bespoke wolf celiac quinoa cloud bread letterpress hammock photo booth. Palo santo vexillologist venmo shaman.</p>
-								</div>
-							</div>
-							<div class="col-x1-12 col-sm-6 col-md-4 sk__feature-col">
-								<div class="sk__feature">
-									<h5>There are no boundaries.</h5>
-									<div class="colorline-deco">
-										<div class="colorline-deco-normal sk__absolute"></div>
-										<div class="colorline-deco-hover sk__absolute sk__gradient-back-v1"></div>
-									</div>
-									<p>Salvia vape blue bottle bespoke wolf celiac quinoa cloud bread letterpress hammock photo booth. Palo santo vexillologist venmo shaman.</p>
-								</div>
-							</div>
-							<div class="col-x1-12 col-sm-6 col-md-4 sk__feature-col">
-								<div class="sk__feature">
-									<h5>There are no boundaries.</h5>
-									<div class="colorline-deco">
-										<div class="colorline-deco-normal sk__absolute"></div>
-										<div class="colorline-deco-hover sk__absolute sk__gradient-back-v1"></div>
-									</div>
-									<p>Salvia vape blue bottle bespoke wolf celiac quinoa cloud bread letterpress hammock photo booth. Palo santo vexillologist venmo shaman.</p>
-								</div>
-							</div>
-							<div class="col-x1-12 col-sm-6 col-md-4 sk__feature-col">
-								<div class="sk__feature">
-									<h5>There are no boundaries.</h5>
-									<div class="colorline-deco">
-										<div class="colorline-deco-normal sk__absolute"></div>
-										<div class="colorline-deco-hover sk__absolute sk__gradient-back-v1"></div>
-									</div>
-									<p>Salvia vape blue bottle bespoke wolf celiac quinoa cloud bread letterpress hammock photo booth. Palo santo vexillologist venmo shaman.</p>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col sk__features-subtext">
-								<div class="features-subtext-deco"></div>
-								<p class="p-xs text-center text-sm-end features-subtext-p">Salvia vape blue bottle bespoke wolf celiac quinoa cloud bread letterpress hammock photo booth. Palo santo vexillologist venmo shaman pitchfork tote bag.</p>
-							</div>
-						</div>
-					</div>
-				</section>
-				<!-- /.sk__features-section -->
-
 
 
 				<!-- Laptop Section
@@ -1062,12 +858,11 @@
 				</section>
 
 
-
 				<!-- Services Section
 				================================================== -->
-				<section id="services" class="sk__services-section sk__parallax-background-section dark-shade-5-border sk__solid-menu-bar">
+				<section id="services" class="sk__services-section sk__parallax-background-section sk__py-l dark-shade-5-border sk__solid-menu-bar">
 					<div class="sk__parallax-background-element sk__absolute sk__image-back-cover sk__services-background"></div>
-					<div class="container sk__py-l">
+					<div class="container">
 						<div class="row text-center">
 							<div class="col sk__heading-spacer-l">
 								<div class="cover-text-wrapper">
@@ -1189,13 +984,11 @@
 				</section>
 
 
-
 				<section class="sk__deco-row-section">
 					<div class="container-fluid">
 						<div class="row sk__deco-row dark-shade-7-bg dark-shade-5-border"></div>
 					</div>
 				</section>
-
 
 
 				<!-- Skills Section
@@ -1290,13 +1083,11 @@
 				<!-- /.sk__skills -->
 
 
-
 				<section class="sk__deco-row-section">
 					<div class="container-fluid">
 						<div class="row sk__deco-row dark-shade-7-bg dark-shade-5-border"></div>
 					</div>
 				</section>
-
 
 
 				<!-- CTA Section (Warp CTA)
@@ -1336,6 +1127,7 @@
 
 									<!-- Preview Only Static Form -->
 									<form class="sk__form sk__contact-form">
+
 										<div class="form-group">
 											<input type="text" name="the_name" placeholder="Name*" tabindex="1">
 										</div>
@@ -1345,26 +1137,31 @@
 										<div class="form-group">
 											<textarea name="the_message" placeholder="Message*" tabindex="3"></textarea>
 										</div>
+
 										<button type="submit" tabindex="4">Submit</button>
+
 									</form>
 
 									<!-- Real Working Form - Simple Forms V3 -->
 									<!-- <div class="sf-wrapper">
 										<form id="contact-form-1" class="sk__form sk__contact-form" action="assets/vendor/simple-forms/sendmail.php" method="post">
+											
 											<div class="form-group">
-												<input type="text" name="name" value="" class="validate-name" placeholder="Name*" min="2" required>
+												<input type="text" name="name" value="" class="validate-name" min="2" placeholder="Name*" required>
 											</div>
 											<div class="form-group">
 												<input type="text" name="email" class="validate-email" placeholder="Email*" value="">
 											</div>
-											
 											<div class="form-group">
 												<textarea name="message" placeholder="Message*" required></textarea>
 											</div>
+
 											<div class="form-submit">
 												<button type="submit">Send now</button>
 											</div>
+
 											<div class="server-response"></div>
+
 										</form>
 									</div> -->
 
@@ -1408,7 +1205,7 @@
 								<p class="p-v2 mw-440"><span>1000 Park Avenue Manhattan, </span><span>NY 10001, </span><span>+1 (0) 212 555-0475 </span><br /><span>info@website.com</span></p>
 							</div>
 							<div class="col-sm-12 col-md-6 col-lg-3 footer-main-small-col widget_nav_menu">
-								<h5>Skilltech Dark&#8198;star Web</h5>
+								<h5>Darkstar Quick Links</h5>
 								<ul>
 									<li>
 										<a href="#" class="footer-main-links gradient-links">About Dark&#8198;star Theme</a>
@@ -1527,9 +1324,9 @@
 	<script src="assets/vendor/parallax/3.1.0/parallax.min.js"></script>
 
 	<!-- Delivery Form Scripts -->
-	<!-- <script src="assets/vendor/simple-forms/js/simple-forms-translations.js"></script>
-	<script src="assets/vendor/simple-forms/js/simple-forms.min.js"></script>
-	<script src="assets/js/form.js"></script> -->
+	<!-- <script src="assets/vendor/simple-forms/js/simple-forms-translations.js"></script> -->
+	<!-- <script src="assets/vendor/simple-forms/js/simple-forms.min.js"></script> -->
+	<!-- <script src="assets/js/form.js"></script> -->
 
 	<!-- Main Theme JS File -->
 	<script src="assets/js/theme.js"></script>

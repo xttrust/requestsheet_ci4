@@ -9,6 +9,6 @@ class Home extends BaseController {
             'pageTitle' => 'Requestsheet new website',
             'viewPath' => 'index'
         ];
-        return $this->templates->backend($data);
+        return $this->templates->frontend($data);
     }
 }

@@ -21,8 +21,9 @@ class Templates extends BaseController {
     public function frontend($data) {
         $data['themeUrl'] = base_url('public/themes/frontend/');
 
-        echo view('public/themes/frontend/header', $data);
-        echo view($data['viewPath']);
-        echo view('public/themes/frontend/footer');
+        // Specify the full path to the view files in the public folder
+        echo view('../../public/themes/frontend/header', $data);
+        echo view('../../public/themes/frontend/' . $data['viewPath']);
+        echo view('../../public/themes/frontend/footer');
     }
 }
