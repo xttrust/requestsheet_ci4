@@ -5,6 +5,10 @@ namespace App\Controllers;
 class Home extends BaseController {
 
     public function index() {
-        echo "Plain index function.";
+        $data = [
+            'pageTitle' => 'Requestsheet new website',
+            'viewPath' => 'index'
+        ];
+        return $this->templates->backend($data);
     }
 }

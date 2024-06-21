@@ -8,6 +8,9 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use CodeIgniter\I18n\Time;
+use CodeIgniter\HTTP\URI;
+use App\Controllers\Templates;
 
 /**
  * Class BaseController
@@ -19,8 +22,8 @@ use Psr\Log\LoggerInterface;
  *
  * For security be sure to declare any new methods as protected or private.
  */
-abstract class BaseController extends Controller
-{
+abstract class BaseController extends Controller {
+
     /**
      * Instance of the main Request object.
      *
@@ -35,7 +38,7 @@ abstract class BaseController extends Controller
      *
      * @var list<string>
      */
-    protected $helpers = [];
+    protected $helpers = ['url', 'form', 'functions', 'fail_messages'];
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
@@ -46,13 +49,15 @@ abstract class BaseController extends Controller
     /**
      * @return void
      */
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
-    {
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger) {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
-
         // E.g.: $this->session = \Config\Services::session();
+        $this->userId = session('userId');
+        $this->uri = new URI(current_url());
+        $this->time = new Time();
+        $this->templates = new Templates();
     }
 }
