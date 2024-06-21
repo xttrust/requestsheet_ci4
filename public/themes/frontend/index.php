@@ -5,17 +5,17 @@
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <meta name="description" content="This is DarkStar, see it live now!">
-        <meta name="author" content="Skilltech Web Design">
-        <meta name="keywords" content="DarkStar, dark theme, best dark theme, best dark html, best dark website design, best dark websites, dark web design, best html themes, best html templates, best websites, dark portfolio, dark creative, gsap theme, skilltech, skilltech web design"/>
+        <meta name="description" content="<?= isset($pageDescription) ? $pageDescription : "This is the next requestsheet website"; ?>">
+        <meta name="author" content="kcon">
+        <meta name="keywords" content="<?= isset($pageKeywords) ? $pageKeywords : ""; ?>"/>
 
-        <meta property="og:title" content="DarkStar - The Ultimate Dark HTML Template"/>
-        <meta property="og:description" content="Superior Dark Multipurpose Theme · $235 Added Value · Stunning Effects & Clean Code · Build a Website Today with DarkStar!"/>
+        <meta property="og:title" content="<?= isset($pageTitle) ? $pageTitle : "Untitled Webpage"; ?>"/>
+        <meta property="og:description" content="<?= isset($pageDescription) ? $pageDescription : "This is the next requestsheet website"; ?>"/>
         <meta property="og:image" content="<?= $themeUrl; ?>assets/images/facebook-post-image-default.jpg"/>
 
         <meta property="og:site_name" content="creativeigniter.com"/>
 
-        <title>DarkStar | Home</title>
+        <title><?= isset($pageTitle) ? $pageTitle : "Untitled Webpage"; ?></title>
 
         <link rel="icon" href="favicon.ico" type="image/x-icon">
         <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="<?= $themeUrl; ?>assets/images/apple-touch-icon-72x72-precomposed.png" sizes="72x72" />
