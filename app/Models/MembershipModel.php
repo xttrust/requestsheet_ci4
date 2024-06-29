@@ -15,7 +15,7 @@ class MembershipModel extends Model {
     protected $protectFields = true;
     protected $allowedFields = ['id', 'name', 'price', 'comments', 'time'];
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat = 'datetime';
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
@@ -36,20 +36,68 @@ class MembershipModel extends Model {
     protected $beforeDelete = [];
     protected $afterDelete = [];
 
-    public function countWhere($row, $value) {
-        $this->where($row, $value);
+    // Count the number of rows where a specific column matches a given value
+    public function countWhere($column, $value) {
+        return $this->where($column, $value)->countAllResults();
+    }
+
+    // Get the latest memberships
+    public function getByLatest($limit = 10) {
+        return $this->orderBy('created_at', 'DESC')->findAll($limit);
+    }
+
+    // Get a membership by its ID
+    public function getById($id) {
+        return $this->find($id);
+    }
+
+    // Get a single membership by a specific column and value
+    public function getBy($column, $value) {
+        return $this->where($column, $value)->first();
+    }
+
+    // Get all memberships within a specific price range
+    public function getByPriceRange($minPrice, $maxPrice, $limit = 10) {
+        return $this->where('price >=', $minPrice)
+                        ->where('price <=', $maxPrice)
+                        ->orderBy('price', 'ASC')
+                        ->findAll($limit);
+    }
+
+    // Get all memberships with a specific name
+    public function getByName($name, $limit = 10) {
+        return $this->like('name', $name)
+                        ->orderBy('name', 'ASC')
+                        ->findAll($limit);
+    }
+
+    // Get paginated results
+    public function getPaginated($limit, $offset) {
+        return $this->orderBy('created_at', 'DESC')->findAll($limit, $offset);
+    }
+
+    // Search memberships by name or comments
+    public function search($query, $limit = 10) {
+        return $this->like('name', $query)
+                        ->orLike('comments', $query)
+                        ->orderBy('created_at', 'DESC')
+                        ->findAll($limit);
+    }
+
+    // Get the total count of memberships
+    public function getTotalCount() {
         return $this->countAllResults();
     }
 
-    public function getByLatest() {
-        return $this->orderBy('id', 'DESC')->get()->getResult();
+    // Get the count of memberships within a specific price range
+    public function countByPriceRange($minPrice, $maxPrice) {
+        return $this->where('price >=', $minPrice)
+                        ->where('price <=', $maxPrice)
+                        ->countAllResults();
     }
 
-    public function getById($id) {
-        return $this->where('id', $id)->get()->getRow();
-    }
-
-    public function getBy($row, $value) {
-        return $this->where($row, $value)->get()->getRow();
+    // Get the count of memberships with a specific name
+    public function countByName($name) {
+        return $this->like('name', $name)->countAllResults();
     }
 }
