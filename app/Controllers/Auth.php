@@ -5,15 +5,16 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\UsersModel;
 use App\Libraries\Security;
+use CodeIgniter\HTTP\RedirectResponse;
 
 class Auth extends BaseController {
 
     private $usersModel;
     private $security;
 
-    public function __construct() {
-        $this->usersModel = new UsersModel();
-        $this->security = new Security();
+    public function __construct(UsersModel $usersModel, Security $security) {
+        $this->usersModel = $usersModel;
+        $this->security = $security;
     }
 
     /**
@@ -69,10 +70,10 @@ class Auth extends BaseController {
      *
      * @param int $userId The ID of the user to set the cookie for.
      */
-    private function setRememberMeCookie($userId) {
+    private function setRememberMeCookie(int $userId) {
         helper('text');
         $cookieName = 'rememberMe';
-        $cookieValue = random_string('alnum', 10); // Generate a random string
+        $cookieValue = random_string('alnum', 64); // Generate a more secure random string
         $expiration = time() + (30 * 24 * 60 * 60); // 30 days
         setcookie($cookieName, $cookieValue, $expiration, '/');
     }
@@ -110,7 +111,7 @@ class Auth extends BaseController {
      *
      * @param string $token The activation token.
      */
-    public function activateAccount($token) {
+    public function activateAccount(string $token) {
         // Find the user with the given activation token
         $user = $this->usersModel->where('verification_token', $token)->first();
 

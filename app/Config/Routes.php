@@ -8,3 +8,5 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 $routes->get('admin/', 'Admin::index');
+
+$routes->get('manage-users', 'Users::manage');
