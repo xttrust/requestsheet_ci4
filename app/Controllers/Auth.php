@@ -12,9 +12,9 @@ class Auth extends BaseController {
     private $usersModel;
     private $security;
 
-    public function __construct(UsersModel $usersModel, Security $security) {
-        $this->usersModel = $usersModel;
-        $this->security = $security;
+    public function __construct() {
+        $this->usersModel = new UsersModel();
+        $this->security = new Security();
     }
 
     /**
@@ -25,12 +25,7 @@ class Auth extends BaseController {
         if ($this->security->getUserId()) {
             return redirect()->to('account?logged=true')->with('success', 'You are already logged in.');
         }
-        $data = [
-            'pageTitle' => "Login | " . $this->settings->getKeyValue('website_name'),
-            'themeUrl' => base_url('public/themes/NiceAdmin/')
-        ];
-
-        return view('auth/index', $data);
+        return "Login view to follow";
     }
 
     /**
