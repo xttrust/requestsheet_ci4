@@ -25,13 +25,29 @@ class Auth extends BaseController {
         if ($this->security->getUserId()) {
             return redirect()->to('account?logged=true')->with('success', 'You are already logged in.');
         }
-        return "Login view to follow";
+        $data = [
+            'pageTitle' => 'Login | Requestsheet',
+            'viewPath' => 'login'
+        ];
+        return $this->templates->frontend($data);
     }
 
     /**
      * Handles the login process, including user authentication and session management.
      */
     public function login() {
+        // Validate inputs
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'username' => 'required|alpha_numeric|min_length[3]',
+            'password' => 'required|min_length[8]',
+            'rememberMe' => 'permit_empty|in_list[0,1]'
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->to('login')->with('fail', $validation->listErrors());
+        }
+
         // Get the posted data
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
@@ -52,7 +68,7 @@ class Auth extends BaseController {
             }
 
             // Redirect to the authenticated user's profile page
-            return redirect()->to('account/profile/' . $user['username'])->with('success', 'Welcome back ' . $user['username']);
+            return redirect()->to('home/profile/' . $user['username'])->with('success', 'Welcome back ' . $user['username']);
         } else {
             // Authentication failed
             // Redirect back to the login page with an error message
@@ -70,7 +86,11 @@ class Auth extends BaseController {
         $cookieName = 'rememberMe';
         $cookieValue = random_string('alnum', 64); // Generate a more secure random string
         $expiration = time() + (30 * 24 * 60 * 60); // 30 days
-        setcookie($cookieName, $cookieValue, $expiration, '/');
+        // Store the remember me token in the database
+        $this->usersModel->update($userId, ['remember_token' => $cookieValue]);
+
+        // Set the cookie
+        $this->response->setCookie($cookieName, $cookieValue, $expiration, '', '/', '', true, true); // HttpOnly and Secure flags
     }
 
     /**
@@ -92,13 +112,15 @@ class Auth extends BaseController {
      */
     private function clearRememberMeCookie() {
         $cookieName = 'rememberMe';
-        $expiration = time() - 3600; // Set the expiration time in the past
-        setcookie($cookieName, '', $expiration, '/');
 
-        // Unset the $_COOKIE superglobal to reflect the change immediately
-        if (isset($_COOKIE[$cookieName])) {
-            unset($_COOKIE[$cookieName]);
+        // Remove the remember me token from the database
+        $userId = session()->get('userId');
+        if ($userId) {
+            $this->usersModel->update($userId, ['remember_token' => null]);
         }
+
+        // Unset the cookie by setting an expiration date in the past
+        $this->response->deleteCookie($cookieName, '', '/');
     }
 
     /**

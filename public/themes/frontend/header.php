@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="description" content="<?= isset($pageDescription) ? $pageDescription : "This is the next requestsheet website"; ?>">
+        <meta name="author" content="kcon">
+        <meta name="keywords" content="<?= isset($pageKeywords) ? $pageKeywords : ""; ?>"/>
+
+        <meta property="og:title" content="<?= isset($pageTitle) ? $pageTitle : "Untitled Webpage"; ?>"/>
+        <meta property="og:description" content="<?= isset($pageDescription) ? $pageDescription : "This is the next requestsheet website"; ?>"/>
+        <meta property="og:image" content="<?= $themeUrl; ?>assets/images/facebook-post-image-default.jpg"/>
+
+        <meta property="og:site_name" content="creativeigniter.com"/>
+
+        <title><?= isset($pageTitle) ? $pageTitle : "Untitled Webpage"; ?></title>
+
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="<?= $themeUrl; ?>assets/images/apple-touch-icon-72x72-precomposed.png" sizes="72x72" />
+        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="<?= $themeUrl; ?>assets/images/apple-touch-icon-114x114-precomposed.png" sizes="114x114" />
+        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="<?= $themeUrl; ?>assets/images/apple-touch-icon-144x144-precomposed.png" sizes="144x144" />
+        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="<?= $themeUrl; ?>assets/images/apple-touch-icon-precomposed.png" />
+
+        <!-- Bootstrap CSS -->
+        <link href="<?= $themeUrl; ?>assets/vendor/bootstrap/5.1.3/bootstrap.min.css" rel="stylesheet">
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@100;300;400;700;900&family=Poppins:wght@200;300;400;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+        <!-- Icon Fonts -->
+        <link href="<?= $themeUrl; ?>assets/vendor/icomoon/icomoon.min.css" rel="stylesheet">
+
+        <!-- Off Canvas Menu - Default Theme -->
+        <link href="<?= $themeUrl; ?>assets/vendor/offcanvas-nav/hc-offcanvas-nav.css" rel="stylesheet" />
+
+        <!-- Theme CSS -->
+        <link href="<?= $themeUrl; ?>assets/css/theme.css" rel="stylesheet">
+        <link href="<?= $themeUrl; ?>assets/css/theme-colors.css" rel="stylesheet">
+
+        <!-- Theme Preview Only CSS -->
+        <link href="<?= $themeUrl; ?>assets/css/theme-preview-color-styler.css" rel="stylesheet">
+
+        <!-- jQuery -->
+        <script src="<?= $themeUrl; ?>assets/vendor/jquery/jquery.min.js"></script>
+
+        <!-- Slick (carousel) -->
+        <link href="<?= $themeUrl; ?>assets/vendor/slick/1.8.1/slick.css" rel="stylesheet">
+        <link href="<?= $themeUrl; ?>assets/vendor/slick/1.8.1/slick-theme-skilltech.css" rel="stylesheet">
+
+        <!-- Simple Forms -->
+        <!-- <link rel="stylesheet" href="assets/vendor/simple-forms/css/simple-forms-skilltech-mod.css"> -->
+
+    </head>
+
+    <body class="sk__homepage sk__home-combo-slider dark-shade-1-bg">
+
+        <main id="primary" class="site-main">
+
+            <!-- Master Curtain Effect -->
+            <section class="sk__master-curtain">
+                <div class="mcurtain mcurtain-left"></div>
+                <div class="mcurtain mcurtain-center"></div>
+                <div class="mcurtain mcurtain-right"></div>
+            </section>
+
+            <!-- Back to top button -->
+            <div class="sk__back-to-top-wrap">
+                <a class="sk__back-to-top" href="#smooth-content"><span class="sk__back-to-top"></span></a>
+            </div>
+
+            <!-- Navigation Menu
+            ================================================== -->
+            <div class="sk__mobile-menu-bar"></div>
+
+            <!-- Mobile Menu Logo -->
+            <a class="sk__mobile-main-logo" href="<?= base_url(); ?>"><img alt="Website logo." src="<?= $themeUrl; ?>assets/images/logo-normal.png"></a>
+
+            <nav id="main-nav" style="opacity: 0;" class="sk__menu navbar sk__navbar navbar-expand-lg navbar-dark static-top">
+
+                <!-- Desktop Menu Logo -->
+                <a class="navbar-brand" href="<?= base_url(); ?>"><img id="sk__main-logo" alt="Website logo." src="<?= $themeUrl; ?>assets/images/logo-normal.png"></a>
+
+                <!-- The Menu -->
+                <ul class="navbar-nav ms-auto">
+
+                    <!-- Mobile Menu Logo (only use if "close" buttons are set to false in JS) -->
+                    <li data-nav-custom-content class="custom-content sk__mobile-menu-logo">
+                        <a class="sk__mobile-navbar-brand" href="#"><img alt="Website mobile logo." src="<?= $themeUrl; ?>assets/images/logo-mobile.png"></a>
+                    </li>
+
+                    <!-- Regular Menu Items Start -->
+
+                    <li class="nav-item">
+                        <a class="nav-link hvr-underline-from-center" href="<?= base_url(); ?>">
+                            <span class="sk__menu-icon"><span class="icon-home1"></span></span>Home
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link hvr-underline-from-center" href="<?= base_url('top-song-requests'); ?>">
+                            <span class="sk__menu-icon"><span class="icon-music1"></span></span>Top Song Requests
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link hvr-underline-from-center" href="<?= base_url(); ?>">
+                            <span class="sk__menu-icon"><span class="icon-list1"></span></span>Features
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link hvr-underline-from-center" href="<?= base_url('faq'); ?>">
+                            <span class="sk__menu-icon"><span class="icon-question1"></span></span>FAQ
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url('pricing'); ?>">
+                            <span class="sk__menu-icon"><span class="icon-shopping-cart"></span></span>Pricing
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url('login'); ?>">
+                            <span class="sk__menu-icon"><span class="icon-user1"></span></span>Login
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url('contact-us'); ?>">
+                            <span class="sk__menu-icon"><span class="icon-envelope"></span></span>Contact Us
+                        </a>
+                    </li>
+                    <!-- Regular Menu Items End -->
+
+                    <!-- Mobile Menu Social Icons -->
+                    <li data-nav-custom-content class="custom-content sk__menu-socials">
+                        <section class="footer-socials-section">
+                            <h3><strong>Connect</strong> with us</h3>
+                            <div class="footer-socials-inner">
+                                <div class="footer-socials">
+                                    <a class="social-icons" href="https://www.facebook.com/xttrust" target="_blank"><span><span class="icon-facebook1"></span></span></a>
+                                    <a class="social-icons" href="https://www.facebook.com/xttrust" target="_blank"><span><span class="icon-twitter1"></span></span></a>
+                                    <a class="social-icons" href="https://www.facebook.com/xttrust" target="_blank"><span><span class="icon-behance1"></span></span></a>
+                                    <a class="social-icons" href="https://www.facebook.com/xttrust" target="_blank"><span><span class="icon-dribbble1"></span></span></a>
+                                </div>
+                            </div>
+                        </section>
+                    </li>
+
+                </ul>
+            </nav>
+            <!-- /.sk__menu -->
