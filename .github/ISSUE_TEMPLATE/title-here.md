@@ -2,7 +2,7 @@
 name: Title here
 about: This template is for user stories and epics.
 title: ''
-labels: documentation
+labels: documentation, user_story
 assignees: ''
 
 ---
