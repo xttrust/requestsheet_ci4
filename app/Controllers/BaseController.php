@@ -10,6 +10,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\HTTP\URI;
+use App\Libraries\AppSecurity;
 use App\Controllers\Templates;
 
 /**
@@ -44,7 +45,11 @@ abstract class BaseController extends Controller {
      * Be sure to declare properties for any property fetch you initialized.
      * The creation of dynamic property is deprecated in PHP 8.2.
      */
-    // protected $session;
+    protected $userId;
+    protected $uri;
+    protected $time;
+    protected $templates;
+    protected $appSecurity;
 
     /**
      * @return void
@@ -59,5 +64,6 @@ abstract class BaseController extends Controller {
         $this->uri = new URI(current_url());
         $this->time = new Time();
         $this->templates = new Templates();
+        $this->appSecurity = new AppSecurity();
     }
 }

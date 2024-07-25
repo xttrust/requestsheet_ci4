@@ -5,7 +5,7 @@ namespace App\Libraries;
 use App\Models\UsersModel;
 use CodeIgniter\HTTP\RedirectResponse;
 
-class Security {
+class AppSecurity {
 
     private $userModel;
     public $userId;

@@ -4,17 +4,13 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\UsersModel;
-use App\Libraries\Security;
-use CodeIgniter\HTTP\RedirectResponse;
 
 class Auth extends BaseController {
 
     private $usersModel;
-    private $security;
 
     public function __construct() {
         $this->usersModel = new UsersModel();
-        $this->security = new Security();
     }
 
     /**
@@ -22,7 +18,7 @@ class Auth extends BaseController {
      * Redirects to the account page if the user is logged in.
      */
     public function index() {
-        if ($this->security->getUserId()) {
+        if ($this->appSecurity->getUserId()) {
             return redirect()->to('account?logged=true')->with('success', 'You are already logged in.');
         }
         $data = [
