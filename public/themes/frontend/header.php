@@ -71,8 +71,7 @@
                 <a class="sk__back-to-top" href="#smooth-content"><span class="sk__back-to-top"></span></a>
             </div>
 
-            <!-- Navigation Menu
-            ================================================== -->
+            <!-- Navigation Menu ================================================== -->
             <div class="sk__mobile-menu-bar"></div>
 
             <!-- Mobile Menu Logo -->
@@ -95,13 +94,13 @@
 
                     <li class="nav-item">
                         <a class="nav-link hvr-underline-from-center" href="<?= base_url(); ?>">
-                            <span class="sk__menu-icon"><span class="icon-home1"></span></span>Home
+                            <span class="sk__menu-icon"><span class="icon-home"></span></span>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link hvr-underline-from-center" href="<?= base_url('top-song-requests'); ?>">
-                            <span class="sk__menu-icon"><span class="icon-music1"></span></span>Top Song Requests
+                            <span class="sk__menu-icon"><span class="icon-music1"></span></span>Top Requests
                         </a>
                     </li>
 
@@ -112,30 +111,73 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link hvr-underline-from-center" href="<?= base_url('faq'); ?>">
-                            <span class="sk__menu-icon"><span class="icon-question1"></span></span>FAQ
-                        </a>
-                    </li>
-
-
-                    <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('pricing'); ?>">
                             <span class="sk__menu-icon"><span class="icon-shopping-cart"></span></span>Pricing
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('login'); ?>">
-                            <span class="sk__menu-icon"><span class="icon-user1"></span></span>Login
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('contact-us'); ?>">
-                            <span class="sk__menu-icon"><span class="icon-envelope"></span></span>Contact Us
+                            <span class="sk__menu-icon"><span class="icon-envelope"></span></span>Contact
                         </a>
                     </li>
                     <!-- Regular Menu Items End -->
+
+
+                    <?php if (!$loggedUser) : ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url('login'); ?>">
+                                <span class="sk__menu-icon"><span class="icon-lock1"></span></span>Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url('register'); ?>">
+                                <span class="sk__menu-icon"><span class="icon-shield1"></span></span>Register
+                            </a>
+                        </li>
+                    <?php else : ?>
+
+                        <li class="nav-item menu-item-has-children">
+                            <a class="nav-link hvr-underline-from-center" href="#">
+                                <?= $loggedUser['username']; ?>
+                            </a>
+                            <ul class="sk__submenu-ul">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?= base_url('profile/dashboard'); ?>">
+                                        <span class="sk__menu-icon">
+                                            <span class="icon-dashboard"></span>
+                                        </span>Dashboard
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?= base_url('profile/' . $loggedUser['username']); ?>">
+                                        <span class="sk__menu-icon">
+                                            <span class="icon-profile"></span>
+                                        </span>Profile
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?= base_url('profile/settings'); ?>">
+                                        <span class="sk__menu-icon">
+                                            <span class="icon-settings"></span>
+                                        </span>Settings
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?= base_url('logout'); ?>">
+                                        <span class="sk__menu-icon">
+                                            <span class="icon-sign-out"></span>
+                                        </span>Logout
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    <?php endif; ?>
+
 
                     <!-- Mobile Menu Social Icons -->
                     <li data-nav-custom-content class="custom-content sk__menu-socials">

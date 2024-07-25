@@ -18,18 +18,20 @@ class Auth extends BaseController {
      * Redirects to the account page if the user is logged in.
      */
     public function index() {
+        // Get the logged-in user's data
+        $loggedUser = $this->appSecurity->getLoggedInUser();
+
         if ($this->appSecurity->getUserId()) {
-            // Get the logged-in user's data
-            $loggedInUser = $this->appSecurity->getLoggedInUser();
 
             // Redirect to the user's profile page with a success message
-            return redirect()->to('profile/' . $loggedInUser['username'] . '/?logged=true')->with('success', 'You are already logged in.');
+            return redirect()->to('profile/' . $loggedUser['username'] . '/?logged=true')->with('success', 'You are already logged in.');
         }
 
         // Data for rendering the login page
         $data = [
             'pageTitle' => 'Login | Requestsheet',
-            'viewPath' => 'login'
+            'viewPath' => 'login',
+            'loggedUser' => $loggedUser
         ];
 
         // Render the login page

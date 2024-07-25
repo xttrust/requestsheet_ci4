@@ -9,7 +9,8 @@ class Home extends BaseController {
     public function index() {
         $data = [
             'pageTitle' => 'Requestsheet new website',
-            'viewPath' => 'index'
+            'viewPath' => 'index',
+            'loggedUser' => $this->appSecurity->getLoggedInUser()
         ];
         return $this->templates->frontend($data);
     }
@@ -17,7 +18,8 @@ class Home extends BaseController {
     public function loggedin() {
         $data = [
             'pageTitle' => 'Logged In | Requestsheet',
-            'viewPath' => 'loggedin'
+            'viewPath' => 'loggedin',
+            'loggedUser' => $this->appSecurity->getLoggedInUser()
         ];
         return $this->templates->frontend($data);
     }
@@ -52,11 +54,11 @@ class Home extends BaseController {
         }
 
         // Fetch the logged-in user data
-        $loggedInUser = $this->appSecurity->getLoggedInUser();
+        $loggedUser = $this->appSecurity->getLoggedInUser();
 
         // Optionally, you can add additional authorization logic here
         // For example, if you only want users to view their own profiles
-        if ($loggedInUser['id'] !== $profileUser['id']) {
+        if ($loggedUser['id'] !== $profileUser['id']) {
             return redirect()->to('account')->with('fail', 'You are not authorized to view this profile.');
         }
 
@@ -64,7 +66,7 @@ class Home extends BaseController {
         $data = [
             'pageTitle' => "Profile of {$profileUser['username']}",
             'profileUser' => $profileUser,
-            'loggedInUser' => $loggedInUser,
+            'loggedUser' => $loggedUser,
             'viewPath' => 'profile'
         ];
 

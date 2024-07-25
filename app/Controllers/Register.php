@@ -24,7 +24,8 @@ class Register extends BaseController {
         }
         $data = [
             'pageTitle' => 'Register | Requestsheet',
-            'viewPath' => 'register'
+            'viewPath' => 'register',
+            'loggedUser' => $this->appSecurity->getLoggedInUser()
         ];
         return $this->templates->frontend($data);
     }
