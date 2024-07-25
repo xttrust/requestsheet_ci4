@@ -16,7 +16,7 @@
             <div class="col-12 col-lg-10 offset-0 offset-lg-1 sk__contact-form-col d-flex justify-content-end">
                 <div class="sk__contact-right text-center text-sm-start">
                     <?php echo view('../../public/themes/frontend/form_errors'); ?>
-                    <form class="sk__form sk__contact-form" action="<?= base_url('dologin'); ?>" method="post">
+                    <form class="sk__form sk__contact-form" action="<?= base_url('login'); ?>" method="post">
                         <div class="form-group">
                             <input type="text" name="username" placeholder="Username*" tabindex="1" required>
                         </div>
