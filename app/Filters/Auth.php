@@ -5,6 +5,7 @@ namespace App\Filters;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Filters\FilterInterface;
+use App\Libraries\AppSecurity;
 
 class Auth implements FilterInterface {
 
@@ -12,6 +13,8 @@ class Auth implements FilterInterface {
         // Check if the user is logged in
         $session = session();
         $userId = $session->get('userId');
+        $appSecurity = new AppSecurity();
+        $loggedUser = $appSecurity->getLoggedInUser();
 
         if (!$userId) {
             // Redirect to login if not authenticated
@@ -23,7 +26,7 @@ class Auth implements FilterInterface {
 
         if ($arguments && $role !== $arguments[0]) {
             // Redirect if the user does not have the required role
-            return redirect()->to('account/profile')->with('fail', 'Access denied.');
+            return redirect()->to('profile/' . $loggedUser['username'])->with('fail', 'Restricted access!');
         }
     }
 

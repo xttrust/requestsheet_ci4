@@ -25,7 +25,7 @@
                         </div>
                         <div class="form-group form-check">
                             <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
-                            <label class="form-check-label" for="rememberMe"> Remember Me</label>
+                            <label class="form-check-label px-1" for="rememberMe"> Remember Me</label>
                         </div>
                         <button type="submit" tabindex="4">Login</button>
                     </form>
