@@ -57,6 +57,7 @@ class Auth extends BaseController {
             // Authentication successful
             // Store user information in session
             session()->set('userId', $user['id']);
+            session()->set('userRole', $user['role']);
 
             // Set remember me cookie if requested
             if ($rememberMe) {
@@ -94,7 +95,7 @@ class Auth extends BaseController {
      */
     public function logout() {
         // Clear the user session
-        session()->remove('userId');
+        session()->remove(['userId', 'userRole']);
 
         // Clear the remember me cookie
         $this->clearRememberMeCookie();
@@ -123,22 +124,30 @@ class Auth extends BaseController {
      * Activates a user account based on the provided activation token.
      *
      * @param string $token The activation token.
+     * @return \CodeIgniter\HTTP\RedirectResponse
      */
     public function activateAccount(string $token) {
         // Find the user with the given activation token
-        $user = $this->usersModel->where('verification_token', $token)->first();
+        $user = $this->usersModel->where('verification_token', $token)
+                ->where('status', 'inactive') // Ensure token is for an inactive account
+                ->first();
 
         if ($user) {
+            // Check token expiry (if implemented)
+            // Example: if ($user['token_expiry'] < time()) { ... }
             // Activate the user's account
-            $user['status'] = 'active';
-            $user['verification_token'] = null;
-            $this->usersModel->update($user['id'], $user);
+            $userData = [
+                'status' => 'active',
+                'verification_token' => null, // Remove the token
+                    // Optionally: 'token_expiry' => null // Remove expiry if applicable
+            ];
+            $this->usersModel->update($user['id'], $userData);
 
             // Redirect to the login page with a success message
             return redirect()->to('login')->with('success', 'Your account has been activated. Please log in.');
         } else {
             // Redirect to the register page with an error message
-            return redirect()->to('register')->with('fail', 'Your account is already activated or the token is invalid.');
+            return redirect()->to('register')->with('fail', 'Invalid activation token or your account is already activated.');
         }
     }
 }

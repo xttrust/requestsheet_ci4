@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 use App\Libraries\Security;
 use App\Models\UsersModel;
 
@@ -13,17 +14,23 @@ class Register extends BaseController {
     private $usersModel;
 
     public function __construct() {
+        // Initialize the Security and UsersModel instances
         $this->security = new Security();
         $this->usersModel = new UsersModel();
     }
 
+    /**
+     * Display the registration page if the user is not logged in.
+     * Redirect to profile page if the user is already logged in.
+     */
     public function index() {
-        // Authenticate the user or redirect to login
+        // Redirect to profile if the user is already logged in
         if ($this->security->getUserId()) {
             return redirect()->to('account/profile/' . $this->security->getLoggedInUser()->username)
                             ->with('fail', "You already have an account.");
         }
 
+        // Prepare data for view
         $data = [
             'pageTitle' => "Dashboard > Register | " . $this->settings->getKeyValue('website_name'),
             'themeUrl' => base_url('public/themes/NiceAdmin/')
@@ -31,6 +38,11 @@ class Register extends BaseController {
         return view('register/closed', $data);
     }
 
+    /**
+     * Define the validation rules for the registration form.
+     *
+     * @return array Validation rules
+     */
     private function _registerRules() {
         return [
             'firstName' => 'required|min_length[2]|max_length[50]',
@@ -43,6 +55,11 @@ class Register extends BaseController {
         ];
     }
 
+    /**
+     * Define the custom error messages for the registration form validation.
+     *
+     * @return array Custom error messages
+     */
     private function _registerErrors() {
         return [
             'firstName' => [
@@ -81,6 +98,9 @@ class Register extends BaseController {
         ];
     }
 
+    /**
+     * Handle the registration process including validation, data saving, and email sending.
+     */
     public function run() {
         // Perform form validation
         $validation = service('validation');
@@ -90,18 +110,19 @@ class Register extends BaseController {
             // Generate a verification token
             $verificationToken = bin2hex(random_bytes(32));
 
-            // Save the user data in the database
+            // Save the user data in the database and get the user ID
             $userId = $this->saveUserData($verificationToken);
 
             // Send the verification email
             $this->sendVerificationEmail($userId, $verificationToken);
 
-            // Set flash message to be shown after successful registration
+            // Set a flash message for successful registration
             session()->setFlashdata('success', 'Registration successful! Please check your email to activate your account.');
 
-            // Redirect to a success page or desired location
+            // Redirect to the registration page or desired location
             return redirect()->to('register');
         } else {
+            // Collect validation errors
             $errors = $validation->getErrors();
 
             // Preserve the entered data for the form
@@ -112,91 +133,104 @@ class Register extends BaseController {
                 'username' => $this->request->getPost('username')
             ];
 
-            // Set flash message with errors
+            // Set flash message with errors and redirect back to the registration form
             session()->setFlashdata('errors', $errors);
-
-            // Redirect back to the registration form with preserved data
             return redirect()->back()->withInput($data);
         }
     }
 
+    /**
+     * Clean the username by removing special characters and converting to lowercase.
+     *
+     * @param string $username The original username
+     * @return string The cleaned username
+     */
     private function cleanUsername($username) {
-        // Remove special characters, spaces, and bars using regex
+        // Remove special characters and spaces using regex
         $cleanedUsername = preg_replace('/[^a-z0-9_]/', '', $username);
-        // Convert the username to lowercase
-        $cleanedUsername = strtolower($cleanedUsername);
-        // Remove underscores from the start and end of the username
-        $cleanedUsername = trim($cleanedUsername, '_');
-        return $cleanedUsername;
+        // Convert the username to lowercase and trim underscores from start and end
+        return trim(strtolower($cleanedUsername), '_');
     }
 
+    /**
+     * Save user data to the database.
+     *
+     * @param string $verificationToken The verification token
+     * @return int The user ID of the newly created user
+     */
     private function saveUserData($verificationToken) {
-        // Get the form data for users table
         $cleanUsername = $this->cleanUsername($this->request->getPost('username'));
-        $dataForUsersTable = [
+
+        // Prepare data for insertion
+        $data = [
             'email' => $this->request->getPost('email'),
             'username' => $cleanUsername,
             'hash_pass' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'status' => 'inactive', // Set the initial status as "inactive"
+            'status' => 'inactive', // Initial status set as inactive
             'verification_token' => $verificationToken,
-            'role' => 6,
+            'role' => 'default', // Default role for new users
         ];
 
         // Insert data into users table
-        $this->usersModel->insert($dataForUsersTable);
+        $this->usersModel->insert($data);
 
-        // Get the last inserted ID, i.e., the user ID
-        $lastInsertID = $this->usersModel->insertID();
-
-        // Return the user ID
-        return $lastInsertID;
+        // Return the last inserted ID
+        return $this->usersModel->insertID();
     }
 
+    /**
+     * Send a verification email to the user.
+     *
+     * @param int $userId The user ID
+     * @param string $verificationToken The verification token
+     */
     private function sendVerificationEmail($userId, $verificationToken) {
         $mail = new PHPMailer(true);
 
         try {
-            // Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
-            $mail->isSMTP();                                            // Send using SMTP
-            $mail->Host = 'mail.bestofcomponents.com';                  // Set the SMTP server to send through
-            $mail->SMTPAuth = true;                                     // Enable SMTP authentication
-            $mail->Username = 'no-reply@bestofcomponents.com';          // SMTP username
-            $mail->Password = ')Va$6-T?T_tj';                           // SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            // Enable implicit TLS encryption
-            $mail->Port = 465;                                          // TCP port to connect to
-            // Recipients
-            $mail->setFrom('no-reply@bestofcomponents.com', 'BestOfComponents.com');
-            $mail->addAddress($this->request->getPost('email'));        // Add a recipient
-            // Content
-            $mail->isHTML(true);                                        // Set email format to HTML
+            // Configure SMTP settings
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Enable verbose debug output
+            $mail->isSMTP(); // Use SMTP
+            $mail->Host = 'mail.creativeigniter.com'; // SMTP server
+            $mail->SMTPAuth = true; // Enable SMTP authentication
+            $mail->Username = 'test@creativeigniter.com'; // SMTP username
+            $mail->Password = '6L]GPr.uZ(Gi'; // SMTP password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Enable TLS encryption
+            $mail->Port = 465; // SMTP port
+            // Set email sender and recipient
+            $mail->setFrom('test@creativeigniter.com', 'CreativeIgniter.com');
+            $mail->addAddress($this->request->getPost('email'));
+
+            // Set email format to HTML and define subject
+            $mail->isHTML(true);
             $mail->Subject = 'Account Activation';
 
-            // Generate the activation link using the verification token
+            // Generate the activation link
             $activationLink = base_url('activate/') . $verificationToken;
 
-            $message = '<!doctype html>';
-            $message .= '<html>';
-            $message .= '<body>';
-            $message .= 'Hello, <br><br>';
-            $message .= 'Thank you for registering on our website. Please click the following link to activate your account:<br>';
-            $message .= '<a href="' . $activationLink . '">' . $activationLink . '</a><br><br>';
-            $message .= 'If you did not register on our website, please ignore this email.<br><br>';
-            $message .= 'Best regards,<br>Your Website Team';
-            $message .= '</body>';
-            $message .= '</html>';
+            // HTML and plain text versions of the message
+            $htmlMessage = '<!doctype html><html><body>';
+            $htmlMessage .= 'Hello, <br><br>';
+            $htmlMessage .= 'Thank you for registering on our website. Please click the following link to activate your account:<br>';
+            $htmlMessage .= '<a href="' . $activationLink . '">' . $activationLink . '</a><br><br>';
+            $htmlMessage .= 'If you did not register on our website, please ignore this email.<br><br>';
+            $htmlMessage .= 'Best regards,<br>Your Website Team';
+            $htmlMessage .= '</body></html>';
 
-            $messageNoHTML = 'Hello, ';
-            $messageNoHTML .= 'Thank you for registering on our website. ';
-            $messageNoHTML .= 'Please copy and paste in your browser the following link to activate your account. ';
-            $messageNoHTML .= $activationLink;
-            $messageNoHTML .= ' If you did not register on our website, please ignore this email. ';
+            $plainMessage = 'Hello, ';
+            $plainMessage .= 'Thank you for registering on our website. ';
+            $plainMessage .= 'Please copy and paste the following link into your browser to activate your account: ';
+            $plainMessage .= $activationLink;
+            $plainMessage .= ' If you did not register on our website, please ignore this email.';
 
-            $mail->Body = $message;
-            $mail->AltBody = $messageNoHTML;
+            // Set email body
+            $mail->Body = $htmlMessage;
+            $mail->AltBody = $plainMessage;
 
+            // Send the email
             $mail->send();
         } catch (Exception $e) {
+            // Log email sending errors
             log_message('error', "Email could not be sent. Mailer Error: {$mail->ErrorInfo}");
         }
     }
