@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\UsersModel;
+
 class Home extends BaseController {
 
     public function index() {
@@ -34,18 +36,38 @@ class Home extends BaseController {
 
     public function profile($username) {
         // Check if the user is logged in
-        if (session()->has('userId')) {
-            // Simulate retrieving user data
-            // In a real application, you would fetch user details from the database
-            $user = [
-                'username' => $username,
-                'message' => 'Login successful! Welcome back, ' . $username
-            ];
-
-            echo $user['username'];
-        } else {
+        if (!$this->appSecurity->getUserId()) {
             // If not logged in, redirect to the login page with an error message
             return redirect()->to('login')->with('fail', 'You must be logged in to view this page');
         }
+
+        // Fetch the user profile data by username
+        $userModel = new UsersModel();
+        $profileUser = $userModel->where('username', $username)->first();
+
+        // Check if the user profile exists
+        if (!$profileUser) {
+            // Show the 404 error page
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        // Fetch the logged-in user data
+        $loggedInUser = $this->appSecurity->getLoggedInUser();
+
+        // Optionally, you can add additional authorization logic here
+        // For example, if you only want users to view their own profiles
+        if ($loggedInUser['id'] !== $profileUser['id']) {
+            return redirect()->to('account')->with('fail', 'You are not authorized to view this profile.');
+        }
+
+        // Pass the profile data to the view
+        $data = [
+            'pageTitle' => "Profile of {$profileUser['username']}",
+            'profileUser' => $profileUser,
+            'loggedInUser' => $loggedInUser,
+            'viewPath' => 'profile'
+        ];
+
+        return $this->templates->frontend($data);
     }
 }

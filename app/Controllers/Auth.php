@@ -19,12 +19,20 @@ class Auth extends BaseController {
      */
     public function index() {
         if ($this->appSecurity->getUserId()) {
-            return redirect()->to('account?logged=true')->with('success', 'You are already logged in.');
+            // Get the logged-in user's data
+            $loggedInUser = $this->appSecurity->getLoggedInUser();
+
+            // Redirect to the user's profile page with a success message
+            return redirect()->to('profile/' . $loggedInUser['username'] . '/?logged=true')->with('success', 'You are already logged in.');
         }
+
+        // Data for rendering the login page
         $data = [
             'pageTitle' => 'Login | Requestsheet',
             'viewPath' => 'login'
         ];
+
+        // Render the login page
         return $this->templates->frontend($data);
     }
 
@@ -37,7 +45,7 @@ class Auth extends BaseController {
         $validation->setRules([
             'username' => 'required|alpha_numeric|min_length[3]',
             'password' => 'required|min_length[8]',
-            'rememberMe' => 'permit_empty|in_list[0,1]'
+            'rememberMe' => 'permit_empty'
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
@@ -65,7 +73,7 @@ class Auth extends BaseController {
             }
 
             // Redirect to the authenticated user's profile page
-            return redirect()->to('home/profile/' . $user['username'])->with('success', 'Welcome back ' . $user['username']);
+            return redirect()->to('profile/' . $user['username'])->with('success', 'Welcome back ' . $user['username']);
         } else {
             // Authentication failed
             // Redirect back to the login page with an error message
@@ -84,8 +92,7 @@ class Auth extends BaseController {
         $cookieValue = random_string('alnum', 64); // Generate a more secure random string
         $expiration = time() + (30 * 24 * 60 * 60); // 30 days
         // Store the remember me token in the database
-        $this->usersModel->update($userId, ['remember_token' => $cookieValue]);
-
+        //$this->usersModel->update($userId, ['remember_token' => $cookieValue]);
         // Set the cookie
         $this->response->setCookie($cookieName, $cookieValue, $expiration, '', '/', '', true, true); // HttpOnly and Secure flags
     }
@@ -128,7 +135,7 @@ class Auth extends BaseController {
      */
     public function activateAccount(string $token) {
         // Find the user with the given activation token
-        $user = $this->usersModel->where('verification_token', $token)
+        $user = $this->usersModel->where('token_register', $token)
                 ->where('status', 'inactive') // Ensure token is for an inactive account
                 ->first();
 
@@ -138,7 +145,7 @@ class Auth extends BaseController {
             // Activate the user's account
             $userData = [
                 'status' => 'active',
-                'verification_token' => null, // Remove the token
+                'token_register' => null, // Remove the token
                     // Optionally: 'token_expiry' => null // Remove expiry if applicable
             ];
             $this->usersModel->update($user['id'], $userData);

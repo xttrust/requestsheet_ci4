@@ -4,44 +4,77 @@ namespace App\Controllers;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-use App\Libraries\Security;
 use App\Models\UsersModel;
 
 class Register extends BaseController {
 
-    private $security;
     private $usersModel;
 
     public function __construct() {
-        // Initialize the Security and UsersModel instances
-        $this->security = new Security();
         $this->usersModel = new UsersModel();
     }
 
     /**
-     * Display the registration page if the user is not logged in.
-     * Redirect to profile page if the user is already logged in.
+     * Display the registration form.
      */
     public function index() {
-        // Redirect to profile if the user is already logged in
-        if ($this->security->getUserId()) {
-            return redirect()->to('account/profile/' . $this->security->getLoggedInUser()->username)
-                            ->with('fail', "You already have an account.");
+        if ($this->appSecurity->getUserId()) {
+            return redirect()->to('account?logged=true')
+                            ->with('fail', 'You already have an account.');
         }
-
-        // Prepare data for view
         $data = [
-            'pageTitle' => "Dashboard > Register | " . $this->settings->getKeyValue('website_name'),
-            'themeUrl' => base_url('public/themes/NiceAdmin/')
+            'pageTitle' => 'Register | Requestsheet',
+            'viewPath' => 'register'
         ];
-        return view('register/closed', $data);
+        return $this->templates->frontend($data);
     }
 
     /**
-     * Define the validation rules for the registration form.
+     * Process the registration form submission.
+     */
+    public function register() {
+        // Perform form validation
+        $validation = service('validation');
+        $validation->setRules($this->_registerRules(), $this->_registerErrors());
+
+        if ($validation->withRequest($this->request)->run()) {
+            // Generate a verification token
+            $verificationToken = bin2hex(random_bytes(32));
+
+            // Save the user data in the database
+            $userId = $this->saveUserData($verificationToken);
+
+            // Send the verification email
+            $this->sendVerificationEmail($userId, $verificationToken);
+
+            // Set flash message to be shown after successful registration
+            session()->setFlashdata('success', 'Registration successful! Please check your email to activate your account.');
+
+            // Redirect to a success page or desired location
+            return redirect()->to('register');
+        } else {
+            $errors = $validation->getErrors();
+
+            // Preserve the entered data for the form
+            $data = [
+                'firstName' => $this->request->getPost('firstName'),
+                'lastName' => $this->request->getPost('lastName'),
+                'email' => $this->request->getPost('email'),
+                'username' => $this->request->getPost('username')
+            ];
+
+            // Set flash message with errors
+            session()->setFlashdata('errors', $errors);
+
+            // Redirect back to the registration form with preserved data
+            return redirect()->back()->withInput($data);
+        }
+    }
+
+    /**
+     * Get registration rules.
      *
-     * @return array Validation rules
+     * @return array
      */
     private function _registerRules() {
         return [
@@ -56,9 +89,9 @@ class Register extends BaseController {
     }
 
     /**
-     * Define the custom error messages for the registration form validation.
+     * Get registration error messages.
      *
-     * @return array Custom error messages
+     * @return array
      */
     private function _registerErrors() {
         return [
@@ -99,82 +132,45 @@ class Register extends BaseController {
     }
 
     /**
-     * Handle the registration process including validation, data saving, and email sending.
-     */
-    public function run() {
-        // Perform form validation
-        $validation = service('validation');
-        $validation->setRules($this->_registerRules(), $this->_registerErrors());
-
-        if ($validation->withRequest($this->request)->run()) {
-            // Generate a verification token
-            $verificationToken = bin2hex(random_bytes(32));
-
-            // Save the user data in the database and get the user ID
-            $userId = $this->saveUserData($verificationToken);
-
-            // Send the verification email
-            $this->sendVerificationEmail($userId, $verificationToken);
-
-            // Set a flash message for successful registration
-            session()->setFlashdata('success', 'Registration successful! Please check your email to activate your account.');
-
-            // Redirect to the registration page or desired location
-            return redirect()->to('register');
-        } else {
-            // Collect validation errors
-            $errors = $validation->getErrors();
-
-            // Preserve the entered data for the form
-            $data = [
-                'firstName' => $this->request->getPost('firstName'),
-                'lastName' => $this->request->getPost('lastName'),
-                'email' => $this->request->getPost('email'),
-                'username' => $this->request->getPost('username')
-            ];
-
-            // Set flash message with errors and redirect back to the registration form
-            session()->setFlashdata('errors', $errors);
-            return redirect()->back()->withInput($data);
-        }
-    }
-
-    /**
-     * Clean the username by removing special characters and converting to lowercase.
+     * Clean and format the username.
      *
-     * @param string $username The original username
-     * @return string The cleaned username
+     * @param string $username
+     * @return string
      */
     private function cleanUsername($username) {
-        // Remove special characters and spaces using regex
+        // Remove special characters, spaces, and bars using regex
         $cleanedUsername = preg_replace('/[^a-z0-9_]/', '', $username);
-        // Convert the username to lowercase and trim underscores from start and end
-        return trim(strtolower($cleanedUsername), '_');
+        // Convert the username to lowercase
+        $cleanedUsername = strtolower($cleanedUsername);
+        // Remove underscores from the start and end of the username
+        $cleanedUsername = trim($cleanedUsername, '_');
+        return $cleanedUsername;
     }
 
     /**
      * Save user data to the database.
      *
-     * @param string $verificationToken The verification token
-     * @return int The user ID of the newly created user
+     * @param string $verificationToken
+     * @return int
      */
     private function saveUserData($verificationToken) {
+        // Get the form data for users table
         $cleanUsername = $this->cleanUsername($this->request->getPost('username'));
-
-        // Prepare data for insertion
-        $data = [
+        $dataForUsersTable = [
             'email' => $this->request->getPost('email'),
             'username' => $cleanUsername,
+            'first_name' => $this->request->getPost('firstName'),
+            'last_name' => $this->request->getPost('lastName'),
             'hash_pass' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'status' => 'inactive', // Initial status set as inactive
-            'verification_token' => $verificationToken,
-            'role' => 'default', // Default role for new users
+            'status' => 'inactive', // Set the initial status as "inactive"
+            'token_register' => $verificationToken,
+            'role' => 'default', // Set the default role
         ];
 
         // Insert data into users table
-        $this->usersModel->insert($data);
+        $this->usersModel->insert($dataForUsersTable);
 
-        // Return the last inserted ID
+        // Get the last inserted ID, i.e., the user ID
         return $this->usersModel->insertID();
     }
 

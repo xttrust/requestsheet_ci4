@@ -9,10 +9,13 @@ $routes->get('/', 'Home::index');
  * Auth Routes
  */
 // Display registration form (GET)
-$routes->get('register', 'Auth::register');
+$routes->get('register', 'Register::index');
 
 // Process registration form submission (POST)
-$routes->post('register', 'Auth::processRegister');
+$routes->post('register', 'Register::register');
+
+// Process account activation from user email
+$routes->get('activate/(:any)', 'Auth::activateAccount/$1');
 
 // Display login form (GET)
 $routes->get('login', 'Auth::index');
@@ -35,6 +38,9 @@ $routes->get('reset-password/(:any)', 'Auth::resetPassword/$1');
 // Process reset password form submission (POST)
 $routes->post('reset-password', 'Auth::processResetPassword');
 
+// Test route for profile
+$routes->get('profile/(:any)', 'Home::profile/$1');
+
 /*
  * Admin Routes
  * Routes for admin-specific functionalities
@@ -56,18 +62,21 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
  * DJ Profile Management Routes
  * Routes for DJ profile management
  */
-$routes->group('dj', ['filter' => 'auth:dj'], function ($routes) {
-    // Display DJ profile (GET)
-    $routes->get('profile', 'DJ::profile');
-    // Update DJ profile (POST)
-    $routes->post('profile/update', 'DJ::updateProfile');
-    // Upload DJ profile picture (POST)
-    $routes->post('profile/picture', 'DJ::uploadPicture');
-    // Display DJ availability (GET)
-    $routes->get('availability', 'DJ::availability');
-    // Update DJ availability (POST)
-    $routes->post('availability/update', 'DJ::updateAvailability');
-});
+
+
+
+//$routes->group('dj', ['filter' => 'auth:dj'], function ($routes) {
+//    // Display DJ profile (GET)
+//    $routes->get('profile', 'DJ::profile');
+//    // Update DJ profile (POST)
+//    $routes->post('profile/update', 'DJ::updateProfile');
+//    // Upload DJ profile picture (POST)
+//    $routes->post('profile/picture', 'DJ::uploadPicture');
+//    // Display DJ availability (GET)
+//    $routes->get('availability', 'DJ::availability');
+//    // Update DJ availability (POST)
+//    $routes->post('availability/update', 'DJ::updateAvailability');
+//});
 
 /*
  * Song Request System Routes
