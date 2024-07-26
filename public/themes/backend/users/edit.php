@@ -97,7 +97,7 @@
                         </div>
 
                         <!-- User details update form -->
-                        <form class="row g-3" method="post" action="<?= base_url('admin/users/do_update/' . $user->id) ?>">
+                        <form class="row g-3" method="post" action="<?= base_url('admin/users/edit/' . $user->id) ?>">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="role" class="form-label">User Role</label>
@@ -122,7 +122,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Username</label>
-                                <input class="form-control" type="text" value="<?= esc($user->username) ?>" readonly>
+                                <input class="form-control" type="text" value="<?= esc($user->username) ?>" disabled>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">First Name</label>
@@ -134,7 +134,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Email</label>
-                                <input class="form-control" type="email" value="<?= esc($user->email) ?>" readonly>
+                                <input class="form-control" type="email" name="email" value="<?= esc($user->email) ?>" required>
                             </div>
 
                             <div class="alert alert-warning" role="alert">

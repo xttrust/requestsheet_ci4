@@ -80,35 +80,42 @@ class Users extends BaseController {
      * @return \CodeIgniter\HTTP\RedirectResponse
      */
     public function save($id) {
+        // Validate userId
         if (!$id || !is_numeric($id)) {
             return redirect()->to(base_url('admin/users'))->with('fail', 'Invalid user ID.');
         }
 
+        // Define validation rules
         $rules = [
-            'email' => "required|valid_email|is_unique[users.email,id,$id]",
+            'email' => "required|valid_email|is_unique[users.email,id,{$id}]",
             'first_name' => 'required|min_length[3]|max_length[30]',
             'last_name' => 'required|min_length[3]|max_length[30]',
             'password' => 'permit_empty|min_length[6]',
             'repeat_password' => 'matches[password]'
         ];
 
+        // Validate form data against rules
         if (!$this->validate($rules)) {
             return redirect()->to(base_url('admin/users/edit/' . $id))->with('errors', $this->validator->getErrors());
         }
 
+        // Prepare user data for update
         $data = [
             'email' => $this->request->getPost('email'),
             'first_name' => $this->request->getPost('first_name'),
             'last_name' => $this->request->getPost('last_name')
         ];
 
+        // Update password if provided
         $password = $this->request->getPost('password');
         if (!empty($password)) {
             $data['password'] = password_hash($password, PASSWORD_DEFAULT);
         }
 
+        // Update user in database
         $this->userModel->update($id, $data);
 
+        // Redirect with success message
         return redirect()->to(base_url('admin/users/edit/' . $id))->with('success', 'User details updated successfully.');
     }
 
