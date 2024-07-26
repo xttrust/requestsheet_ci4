@@ -75,26 +75,32 @@
             <div class="sk__mobile-menu-bar"></div>
 
             <!-- Mobile Menu Logo -->
-            <a class="sk__mobile-main-logo" href="<?= base_url(); ?>"><img alt="Website logo." src="<?= $themeUrl; ?>assets/images/logo-normal.png"></a>
+            <a class="sk__mobile-main-logo" href="<?= base_url(); ?>">
+                <img alt="Website logo." src="<?= $themeUrl; ?>assets/images/logo-normal.png">
+            </a>
 
             <nav id="main-nav" style="opacity: 0;" class="sk__menu navbar sk__navbar navbar-expand-lg navbar-dark static-top">
 
                 <!-- Desktop Menu Logo -->
-                <a class="navbar-brand" href="<?= base_url(); ?>"><img id="sk__main-logo" alt="Website logo." src="<?= $themeUrl; ?>assets/images/logo-normal.png"></a>
+                <a class="navbar-brand" href="#">
+                    <img id="sk__main-logo" alt="Website logo." src="<?= $themeUrl; ?>assets/images/logo-normal.png">
+                </a>
 
                 <!-- The Menu -->
                 <ul class="navbar-nav ms-auto">
 
                     <!-- Mobile Menu Logo (only use if "close" buttons are set to false in JS) -->
                     <li data-nav-custom-content class="custom-content sk__mobile-menu-logo">
-                        <a class="sk__mobile-navbar-brand" href="#"><img alt="Website mobile logo." src="<?= $themeUrl; ?>assets/images/logo-mobile.png"></a>
+                        <a class="sk__mobile-navbar-brand" href="<?= base_url(); ?>">
+                            <img alt="Website mobile logo." src="<?= $themeUrl; ?>assets/images/logo-mobile.png">
+                        </a>
                     </li>
-
-                    <!-- Regular Menu Items Start -->
 
                     <li class="nav-item">
                         <a class="nav-link hvr-underline-from-center" href="<?= base_url(); ?>">
-                            <span class="sk__menu-icon"><span class="icon-home"></span></span>
+                            <span class="sk__menu-icon">
+                                <span class="icon-home"></span>
+                            </span>
                         </a>
                     </li>
 
@@ -105,7 +111,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link hvr-underline-from-center" href="<?= base_url(); ?>">
+                        <a class="nav-link hvr-underline-from-center" href="<?= base_url('features'); ?>">
                             <span class="sk__menu-icon"><span class="icon-list1"></span></span>Features
                         </a>
                     </li>
@@ -121,10 +127,8 @@
                             <span class="sk__menu-icon"><span class="icon-envelope"></span></span>Contact
                         </a>
                     </li>
-                    <!-- Regular Menu Items End -->
 
-
-                    <?php if (!$loggedUser) : ?>
+                    <?php if (!$loggedUser): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="<?= base_url('login'); ?>">
                                 <span class="sk__menu-icon"><span class="icon-lock1"></span></span>Login
@@ -135,21 +139,18 @@
                                 <span class="sk__menu-icon"><span class="icon-shield1"></span></span>Register
                             </a>
                         </li>
-                    <?php else : ?>
-
+                    <?php else: ?>
+                        <!-- Logged user menu -->
                         <li class="nav-item menu-item-has-children">
-                            <a class="nav-link hvr-underline-from-center" href="#">
-                                <?= $loggedUser['username']; ?>
-                            </a>
+                            <a class="nav-link hvr-underline-from-center" href="#"><?= $loggedUser['username']; ?></a>
                             <ul class="sk__submenu-ul">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="<?= base_url('profile/dashboard'); ?>">
+                                    <a class="nav-link" href="<?= base_url('profile/dashboard/' . $loggedUser['username']); ?>">
                                         <span class="sk__menu-icon">
                                             <span class="icon-dashboard"></span>
                                         </span>Dashboard
                                     </a>
                                 </li>
-
                                 <li class="nav-item">
                                     <a class="nav-link" href="<?= base_url('profile/' . $loggedUser['username']); ?>">
                                         <span class="sk__menu-icon">
@@ -157,40 +158,28 @@
                                         </span>Profile
                                     </a>
                                 </li>
-
                                 <li class="nav-item">
-                                    <a class="nav-link" href="<?= base_url('profile/settings'); ?>">
+                                    <a class="nav-link" href="<?= base_url('profile/settings/' . $loggedUser['username']); ?>">
                                         <span class="sk__menu-icon">
                                             <span class="icon-settings"></span>
                                         </span>Settings
                                     </a>
                                 </li>
-
-                                <?php if ($loggedUser['role'] === 'admin'): ?>
-                                    <hr class="dropdown-divider">
+                                <?php if ($loggedUser['role'] === 'admin') : ?>
                                     <li class="nav-item">
                                         <a class="nav-link" href="<?= base_url('admin/dashboard'); ?>">
-                                            <span class="sk__menu-icon">
-                                                <span class="icon-wrench"></span>
-                                            </span>Admin
+                                            <span class="sk__menu-icon"><span class="icon-wrench"></span></span>Admin
                                         </a>
                                     </li>
                                 <?php endif; ?>
-
-
-                                <hr class="dropdown-divider">
                                 <li class="nav-item">
                                     <a class="nav-link" href="<?= base_url('logout'); ?>">
-                                        <span class="sk__menu-icon">
-                                            <span class="icon-sign-out"></span>
-                                        </span>Logout
+                                        <span class="sk__menu-icon"><span class="icon-sign-out"></span></span>Logout
                                     </a>
                                 </li>
-
                             </ul>
                         </li>
                     <?php endif; ?>
-
 
                     <!-- Mobile Menu Social Icons -->
                     <li data-nav-custom-content class="custom-content sk__menu-socials">
@@ -198,10 +187,18 @@
                             <h3><strong>Connect</strong> with us</h3>
                             <div class="footer-socials-inner">
                                 <div class="footer-socials">
-                                    <a class="social-icons" href="https://www.facebook.com/xttrust" target="_blank"><span><span class="icon-facebook1"></span></span></a>
-                                    <a class="social-icons" href="https://www.facebook.com/xttrust" target="_blank"><span><span class="icon-twitter1"></span></span></a>
-                                    <a class="social-icons" href="https://www.facebook.com/xttrust" target="_blank"><span><span class="icon-behance1"></span></span></a>
-                                    <a class="social-icons" href="https://www.facebook.com/xttrust" target="_blank"><span><span class="icon-dribbble1"></span></span></a>
+                                    <a class="social-icons" href="#" target="_blank">
+                                        <span><span class="icon-facebook1"></span></span>
+                                    </a>
+                                    <a class="social-icons" href="#" target="_blank">
+                                        <span><span class="icon-twitter1"></span></span>
+                                    </a>
+                                    <a class="social-icons" href="#" target="_blank">
+                                        <span><span class="icon-behance1"></span></span>
+                                    </a>
+                                    <a class="social-icons" href="#" target="_blank">
+                                        <span><span class="icon-dribbble1"></span></span>
+                                    </a>
                                 </div>
                             </div>
                         </section>
@@ -210,3 +207,4 @@
                 </ul>
             </nav>
             <!-- /.sk__menu -->
+
