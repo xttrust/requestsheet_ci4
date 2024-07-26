@@ -48,14 +48,28 @@ $routes->get('profile/(:any)', 'Home::profile/$1');
 $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     // Display admin dashboard (GET)
     $routes->get('dashboard', 'Admin::dashboard');
+
+    /* Users Routes */
     // Manage users (GET)
-    $routes->get('users', 'Admin::manageUsers');
+    $routes->get('users', 'Users::manage');
+    // Edit user (GET and POST)
+    $routes->get('users/edit/(:any)', 'Users::edit/$1');
+    $routes->post('users/edit/(:any)', 'Users::save/$1');
     // Approve user (POST)
-    $routes->post('users/approve/(:num)', 'Admin::approveUser/$1');
+    $routes->post('users/approve/(:num)', 'Users::approve/$1');
     // Delete user (POST)
-    $routes->post('users/delete/(:num)', 'Admin::deleteUser/$1');
-    // Manage feedback (GET)
-    $routes->get('feedback', 'Admin::manageFeedback');
+    $routes->get('users/delete/(:num)', 'Users::delete/$1');
+
+    /* News Routes */
+    // Manage news (GET)
+    $routes->get('news', 'News::manage');
+    // Edit news (GET and POST)
+    $routes->get('news/edit/(:any)', 'News::edit/$1');
+    $routes->post('news/edit/(:any)', 'News::save/$1');
+    // Approve news (POST)
+    $routes->post('news/approve/(:num)', 'News::approve/$1');
+    // Delete news (POST)
+    $routes->post('news/delete/(:num)', 'News::delete/$1');
 });
 
 /*

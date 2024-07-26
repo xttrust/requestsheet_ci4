@@ -42,6 +42,10 @@ class UsersModel extends Model {
     protected $beforeDelete = [];
     protected $afterDelete = [];
 
+    public function getAllUsersOrderedBy($order, $by) {
+        return $this->orderBy($by, $order)->asObject()->findAll();
+    }
+
     public function countWhere($column, $value) {
         return $this->where($column, $value)->countAllResults();
     }

@@ -166,6 +166,19 @@
                                     </a>
                                 </li>
 
+                                <?php if ($loggedUser['role'] === 'admin'): ?>
+                                    <hr class="dropdown-divider">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= base_url('admin/dashboard'); ?>">
+                                            <span class="sk__menu-icon">
+                                                <span class="icon-wrench"></span>
+                                            </span>Admin
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+
+
+                                <hr class="dropdown-divider">
                                 <li class="nav-item">
                                     <a class="nav-link" href="<?= base_url('logout'); ?>">
                                         <span class="sk__menu-icon">

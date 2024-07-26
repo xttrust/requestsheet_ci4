@@ -7,8 +7,10 @@ class Admin extends BaseController {
     public function dashboard() {
         $data = [
             'pageTitle' => 'Administration > Dashboard',
-            'viewPath' => 'index'
+            'viewPath' => 'index',
+            'loggedUser' => $this->appSecurity->getLoggedInUser()
         ];
+
         return $this->templates->backend($data);
     }
 }

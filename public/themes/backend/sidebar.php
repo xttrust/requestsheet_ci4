@@ -23,22 +23,22 @@
             </a>
             <ul id="modules-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="<?= base_url('users'); ?>">
+                    <a href="<?= base_url('admin/users'); ?>">
                         <i class="bi bi-people"></i><span>Users</span>
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url('pages'); ?>">
+                    <a href="<?= base_url('admin/pages'); ?>">
                         <i class="bi bi-file-earmark"></i><span>Pages</span>
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url('news'); ?>">
+                    <a href="<?= base_url('admin/news'); ?>">
                         <i class="bi bi-newspaper"></i><span>News</span>
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url('membership'); ?>">
+                    <a href="<?= base_url('admin/membership'); ?>">
                         <i class="bi bi-currency-exchange"></i><span>Membership Prices</span>
                     </a>
                 </li>
@@ -53,12 +53,12 @@
             </a>
             <ul id="settings-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="<?= base_url('settings/email'); ?>">
+                    <a href="<?= base_url('admin/email-settings'); ?>">
                         <i class="bi bi-envelope"></i><span>Email</span>
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url('settings/layout'); ?>">
+                    <a href="<?= base_url('admin/layout-settings'); ?>">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Layout</span>
                     </a>
                 </li>
