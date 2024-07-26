@@ -55,6 +55,8 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     // Edit user (GET and POST)
     $routes->get('users/edit/(:any)', 'Users::edit/$1');
     $routes->post('users/edit/(:any)', 'Users::save/$1');
+    // Activate membership (POST)
+    $routes->post('users/activate-membership/(:any)', 'Users::activateMembership/$1');
     // Approve user (POST)
     $routes->post('users/approve/(:num)', 'Users::approve/$1');
     // Delete user (POST)

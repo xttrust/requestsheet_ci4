@@ -43,34 +43,54 @@ class NewsletterModel extends Model {
         parent::__construct();
     }
 
-    // Method to insert a new newsletter subscription
-    public function subscribe($email) {
-        $data = [
-            'email' => $email,
-            'date' => date('Y-m-d H:i:s') // current date/time
-        ];
-
-        return $this->insert($data);
-    }
-
-    // Method to get all newsletter subscriptions
-    public function getAllSubscriptions() {
+    /**
+     * Get all memberships.
+     *
+     * @return array
+     */
+    public function getAll() {
         return $this->findAll();
     }
 
-    // Method to get a single subscription by email
-    public function getByEmail($email) {
-        return $this->where('email', $email)->first();
+    /**
+     * Get a membership by its ID.
+     *
+     * @param int $id
+     * @return array|null
+     */
+    public function getById($id) {
+        return $this->find($id);
     }
 
-    // Method to update a subscription by email
-    public function updateSubscription($email, $newEmail) {
-        $data = ['email' => $newEmail];
-        return $this->update(['email' => $email], $data);
+    /**
+     * Create a new membership.
+     *
+     * @param array $data
+     * @return int|string|null
+     */
+    public function create(array $data) {
+        $this->insert($data);
+        return $this->insertID();
     }
 
-    // Method to delete a subscription by email
-    public function deleteByEmail($email) {
-        return $this->where('email', $email)->delete();
+    /**
+     * Update an existing membership.
+     *
+     * @param int $id
+     * @param array $data
+     * @return bool
+     */
+    public function updateMembership($id, array $data) {
+        return $this->update($id, $data);
+    }
+
+    /**
+     * Delete a membership by its ID.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function deleteMembership($id) {
+        return $this->delete($id);
     }
 }

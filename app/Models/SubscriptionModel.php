@@ -47,7 +47,7 @@ class SubscriptionModel extends Model {
      *
      * @return array
      */
-    public function getAllSubscriptions() {
+    public function getAll() {
         return $this->findAll();
     }
 
@@ -57,7 +57,7 @@ class SubscriptionModel extends Model {
      * @param int $id
      * @return array|null
      */
-    public function getSubscriptionById($id) {
+    public function getById($id) {
         return $this->find($id);
     }
 
@@ -67,7 +67,7 @@ class SubscriptionModel extends Model {
      * @param int $userId
      * @return array
      */
-    public function getSubscriptionsByUserId($userId) {
+    public function getByUserId($userId) {
         return $this->where('user_id', $userId)->findAll();
     }
 
@@ -77,19 +77,19 @@ class SubscriptionModel extends Model {
      * @param array $data
      * @return int|string|null
      */
-    public function addSubscription(array $data) {
+    public function create(array $data) {
         $this->insert($data);
         return $this->insertID();
     }
 
     /**
-     * Update an existing subscription by ID.
+     * Update a subscription record.
      *
      * @param int $id
      * @param array $data
      * @return bool
      */
-    public function updateSubscription($id, array $data) {
+    public function updateRecord($id, array $data) {
         return $this->update($id, $data);
     }
 
@@ -99,7 +99,7 @@ class SubscriptionModel extends Model {
      * @param int $id
      * @return bool
      */
-    public function deleteSubscription($id) {
+    public function deleteRecord($id) {
         return $this->delete($id);
     }
 }

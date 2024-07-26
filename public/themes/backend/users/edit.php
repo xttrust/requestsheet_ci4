@@ -23,18 +23,16 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">User Membership Status</h5>
+
+                        <?php echo view('../../public/themes/backend/show_messages'); ?>
+
                         <div class="alert alert-info" role="alert">
                             Use this form to manually update user subscription.
                         </div>
 
-                        <!-- Display validation errors -->
-                        <?= \Config\Services::validation()->listErrors() ?>
-
-                        <!-- Display alert messages -->
-                        <?= isset($alert) ? $alert : ""; ?>
-
                         <!-- Subscription management form -->
-                        <form class="g-3" method="post" action="<?= base_url('admin/users/activate_membership/' . $user->id) ?>">
+                        <form class="g-3" method="post" action="<?= base_url('admin/users/activate-membership/' . $user->id) ?>">
+                            <?= csrf_field() ?>
                             <?php if ($user_subscription): ?>
                                 <?php
                                 $subscriptionEndDate = $user_subscription[0]['end_date'];
@@ -70,6 +68,10 @@
                             <div class="mb-3">
                                 <button class="btn btn-primary" type="submit" name="submit" value="Submit">
                                     <i class="ri-check-line"></i> Submit
+                                </button>
+
+                                <button class="btn btn-danger" type="submit" name="suspend" value="Suspend">
+                                    <i class="ri-remove"></i> Suspend
                                 </button>
                             </div>
 

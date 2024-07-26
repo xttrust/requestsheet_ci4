@@ -26,6 +26,8 @@
                             <strong>Manage Users:</strong> On this page, you can manage user accounts. You can view details, edit user information, approve new users, and delete accounts if necessary. Use the search and filter options within the table for easy navigation.
                         </div>
 
+                        <?php echo view('../../public/themes/backend/show_messages'); ?>
+
                         <!-- DataTable for Managing Users -->
                         <table class="table datatable">
                             <thead>
@@ -44,7 +46,47 @@
                                         <td><?= $user->id; ?></td>
                                         <td><?= $user->username; ?></td>
                                         <td><?= $user->email; ?></td>
-                                        <td><?= $user->status; ?></td>
+                                        <td>
+                                            <?php
+                                            $status = $user->status;
+                                            $statusClass = '';
+                                            $icon = '';
+                                            $badgeTitle = '';
+
+                                            switch ($status) {
+                                                case 'active':
+                                                    $statusClass = 'badge bg-success';
+                                                    $icon = 'bi-check-circle';
+                                                    $badgeTitle = "Activated";
+                                                    break;
+                                                case 'inactive':
+                                                    $statusClass = 'badge bg-warning text-dark';
+                                                    $icon = 'bi-exclamation-triangle';
+                                                    $badgeTitle = "Not Activated";
+                                                    break;
+                                                case 'blocked':
+                                                    $statusClass = 'badge bg-secondary';
+                                                    $icon = 'bi-pause-circle';
+                                                    $badgeTitle = "Blocked";
+                                                    break;
+                                                case 'banned':
+                                                    $statusClass = 'badge bg-danger';
+                                                    $icon = 'bi-exclamation-octagon';
+                                                    $badgeTitle = "Banned";
+                                                    break;
+                                                default:
+                                                    $statusClass = 'badge bg-light text-dark';
+                                                    $icon = 'bi-star';
+                                                    $badgeTitle = "Pending";
+                                            }
+                                            ?>
+                                            <span class="<?= $statusClass; ?>" title="<?= htmlspecialchars($badgeTitle, ENT_QUOTES, 'UTF-8'); ?>">
+                                                <i class="bi <?= $icon; ?> me-1"></i>
+                                                <?= htmlspecialchars($badgeTitle, ENT_QUOTES, 'UTF-8'); ?>
+                                            </span>
+                                        </td>
+
+
                                         <td>
                                             <!-- Edit User Button -->
                                             <a class="btn btn-primary btn-sm" href="<?= base_url('admin/users/edit/' . $user->id); ?>">

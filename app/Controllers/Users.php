@@ -28,7 +28,6 @@ class Users extends BaseController {
             'pageTitle' => 'Administration > Users',
             'viewPath' => 'users/manage',
             'loggedUser' => $this->appSecurity->getLoggedInUser(),
-            'loggedUser' => $this->appSecurity->getLoggedInUser(),
             'users' => $this->userModel->getAllUsersOrderedBy('ASC', 'username')
         ];
 
@@ -43,7 +42,7 @@ class Users extends BaseController {
      */
     public function edit($id = null) {
         if (!isset($id) || !is_numeric($id)) {
-            return redirect()->to(base_url('user/manage'))->with('error', 'Invalid user ID.');
+            return redirect()->to(base_url('admin/users'))->with('fail', 'Invalid user ID.');
         }
 
         $user = $this->userModel->find($id);
@@ -54,11 +53,11 @@ class Users extends BaseController {
         }
 
         if (!$user) {
-            return redirect()->to(base_url('user/manage'))->with('error', 'User not found.');
+            return redirect()->to(base_url('admin/users'))->with('fail', 'User not found.');
         }
 
-        $user_subscription = $this->subscriptionModel->getSubscriptionsByUserId($id);
-        $memberships = $this->membershipModel->findAll();
+        $user_subscription = $this->subscriptionModel->getByUserId($id);
+        $memberships = $this->membershipModel->getAll();
 
         $data = [
             'pageTitle' => 'Administration > Edit User: ' . htmlspecialchars($user->username, ENT_QUOTES, 'UTF-8'),
@@ -82,7 +81,7 @@ class Users extends BaseController {
      */
     public function save($id) {
         if (!$id || !is_numeric($id)) {
-            return redirect()->to(base_url('user/manage'))->with('error', 'Invalid user ID.');
+            return redirect()->to(base_url('admin/users'))->with('fail', 'Invalid user ID.');
         }
 
         $rules = [
@@ -94,7 +93,7 @@ class Users extends BaseController {
         ];
 
         if (!$this->validate($rules)) {
-            return redirect()->to(base_url('user/edit/' . $id))->with('errors', $this->validator->getErrors());
+            return redirect()->to(base_url('admin/users/edit/' . $id))->with('errors', $this->validator->getErrors());
         }
 
         $data = [
@@ -110,7 +109,7 @@ class Users extends BaseController {
 
         $this->userModel->update($id, $data);
 
-        return redirect()->to(base_url('user/edit/' . $id))->with('alert', 'User details updated successfully.');
+        return redirect()->to(base_url('admin/users/edit/' . $id))->with('success', 'User details updated successfully.');
     }
 
     /**
@@ -119,42 +118,70 @@ class Users extends BaseController {
      * @param int|null $userId
      * @return \CodeIgniter\HTTP\RedirectResponse
      */
-    public function activate_membership($userId = null) {
+    public function activateMembership($userId = null) {
+        // Validate userId
         if (!$userId || !is_numeric($userId)) {
-            return redirect()->to(base_url('user/manage'))->with('error', 'Invalid user ID.');
+            return redirect()->to(base_url('admin/users'))->with('fail', 'Invalid user ID.');
         }
 
+        // Fetch user
         $user = $this->userModel->find($userId);
         if (!$user) {
-            return redirect()->to(base_url('user/manage'))->with('error', 'User not found.');
+            return redirect()->to(base_url('admin/users'))->with('fail', 'User not found.');
         }
 
+        // Validate membershipId
         $membershipId = $this->request->getPost('m_id');
         if (!$membershipId) {
-            return redirect()->to(base_url('user/edit/' . $userId))->with('error', 'No membership selected.');
+            return redirect()->to(base_url('admin/users/edit/' . $userId))->with('fail', 'No membership selected.');
         }
 
-        $membership = $this->membershipModel->find($membershipId);
+        // Fetch membership
+        $membership = $this->membershipModel->getById($membershipId);
         if (!$membership) {
-            return redirect()->to(base_url('user/edit/' . $userId))->with('error', 'Invalid membership ID.');
+            return redirect()->to(base_url('admin/users/edit/' . $userId))->with('fail', 'Invalid membership ID.');
         }
 
+        // Check for suspension
+        if ($this->request->getPost('suspend') === "Suspend") {
+            $this->_suspendMembership($userId);
+            return redirect()->to(base_url('admin/users/edit/' . $userId))->with('success', 'Subscription suspended successfully.');
+        }
+
+        // Get the membership duration
+        $membershipDuration = isset($membership['time']) ? $membership['time'] : 0;
+        $currentTime = time();
+        $membershipEndTime = $currentTime + $membershipDuration;
+
+        // Prepare subscription data
         $subscriptionData = [
             'user_id' => $userId,
             'membership_id' => $membershipId,
-            'start_date' => date('Y-m-d'),
-            'end_date' => date('Y-m-d', strtotime("+{$membership->duration} days"))
+            'start_date' => $currentTime,
+            'end_date' => $membershipEndTime
         ];
 
-        // Assuming that a user can have only one active subscription at a time
-        $existingSubscription = $this->subscriptionModel->getSubscriptionsByUserId($userId);
+        // Check for existing subscription
+        $existingSubscription = $this->subscriptionModel->where('user_id', $userId)->first();
+
         if ($existingSubscription) {
-            $this->subscriptionModel->updateSubscription($existingSubscription[0]->id, $subscriptionData);
+            // Update existing subscription
+            $this->subscriptionModel->update($existingSubscription['id'], $subscriptionData);
         } else {
-            $this->subscriptionModel->addSubscription($subscriptionData);
+            // Create new subscription
+            $this->subscriptionModel->insert($subscriptionData);
         }
 
-        return redirect()->to(base_url('user/edit/' . $userId))->with('alert', 'Subscription updated successfully.');
+        // Redirect with success message
+        return redirect()->to(base_url('admin/users/edit/' . $userId))->with('success', 'Subscription updated successfully.');
+    }
+
+    private function _suspendMembership($userId) {
+        $currentTime = time();
+        $subscriptionData = [
+            'end_date' => $currentTime - 100
+        ];
+        $this->subscriptionModel->where('user_id', $userId)->set($subscriptionData)->update();
     }
 
     /**
@@ -165,14 +192,14 @@ class Users extends BaseController {
      */
     public function approve($id = null) {
         if (!$id || !is_numeric($id)) {
-            return redirect()->to(base_url('user/manage'))->with('error', 'Invalid user ID.');
+            return redirect()->to(base_url('admin/users'))->with('fail', 'Invalid user ID.');
         }
 
         // Logic to approve the user
         // Assuming you update the user's status to 'approved'
         $this->userModel->update($id, ['status' => 'approved']);
 
-        return redirect()->to(base_url('user/manage'))->with('alert', 'User approved successfully.');
+        return redirect()->to(base_url('admin/users'))->with('success', 'User approved successfully.');
     }
 
     /**
@@ -183,18 +210,18 @@ class Users extends BaseController {
      */
     public function delete($id = null) {
         if (!$id || !is_numeric($id)) {
-            return redirect()->to(base_url('user/manage'))->with('error', 'Invalid user ID.');
+            return redirect()->to(base_url('admin/users'))->with('fail', 'Invalid user ID.');
         }
 
         // Check if user exists before attempting to delete
         $user = $this->userModel->find($id);
         if (!$user) {
-            return redirect()->to(base_url('user/manage'))->with('error', 'User not found.');
+            return redirect()->to(base_url('admin/users'))->with('fail', 'User not found.');
         }
 
         // Delete the user
         $this->userModel->delete($id);
-
-        return redirect()->to(base_url('user/manage'))->with('alert', 'User deleted successfully.');
+        $alert = 'User: <strong>' . htmlspecialchars($user['username'], ENT_QUOTES, 'UTF-8') . '</strong> deleted successfully.';
+        return redirect()->to(base_url('admin/users'))->with('success', $alert);
     }
 }
