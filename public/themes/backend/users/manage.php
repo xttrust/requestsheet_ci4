@@ -64,11 +64,6 @@
                                                     $icon = 'bi-exclamation-triangle';
                                                     $badgeTitle = "Not Activated";
                                                     break;
-                                                case 'blocked':
-                                                    $statusClass = 'badge bg-secondary';
-                                                    $icon = 'bi-pause-circle';
-                                                    $badgeTitle = "Blocked";
-                                                    break;
                                                 case 'banned':
                                                     $statusClass = 'badge bg-danger';
                                                     $icon = 'bi-exclamation-octagon';

@@ -100,10 +100,12 @@ class Users extends BaseController {
         }
 
         // Prepare user data for update
+
         $data = [
             'email' => $this->request->getPost('email'),
             'first_name' => $this->request->getPost('first_name'),
-            'last_name' => $this->request->getPost('last_name')
+            'last_name' => $this->request->getPost('last_name'),
+            'status' => $this->request->getPost('status')
         ];
 
         // Update password if provided
