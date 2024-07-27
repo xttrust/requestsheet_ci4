@@ -53,24 +53,26 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('dashboard', 'Admin::dashboard');
 
     /* Users Routes */
-    // Manage users (GET)
     $routes->get('users', 'Users::manage');
-    // Edit user (GET and POST)
     $routes->get('users/edit/(:any)', 'Users::edit/$1');
     $routes->post('users/edit/(:any)', 'Users::save/$1');
-    // Activate membership (POST)
     $routes->post('users/activate-membership/(:any)', 'Users::activateMembership/$1');
-    // Approve user (POST)
     $routes->post('users/approve/(:num)', 'Users::approve/$1');
-    // Delete user (POST)
     $routes->get('users/delete/(:num)', 'Users::delete/$1');
 
     /* FAQ Routes */
     $routes->get('faq', 'Faq::manage');
     $routes->get('faq/edit/(:any)', 'Faq::edit/$1');
-    $routes->get('faq/edit', 'Faq::edit'); // This is for adding new FAQ
+    $routes->get('faq/edit', 'Faq::edit');
     $routes->post('faq/save', 'Faq::save');
     $routes->get('faq/delete/(:num)', 'Faq::delete/$1');
+
+    /* Membership Routes */
+    $routes->get('membership', 'Membership::manage');
+    $routes->get('membership/edit/(:num)', 'Membership::edit/$1');
+    $routes->get('membership/edit', 'Membership::edit');
+    $routes->post('membership/save', 'Membership::save');
+    $routes->get('membership/delete/(:num)', 'Membership::delete/$1');
 });
 
 /*

@@ -33,9 +33,9 @@
                         <table class="table datatable">
                             <thead>
                                 <tr>
-                                    <th class="col-1">FAQ ID</th>
-                                    <th class="col-10">Title</th>
-                                    <th class='col-1'>Options</th>
+                                    <th>FAQ ID</th>
+                                    <th>Title</th>
+                                    <th>Options</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,11 +44,13 @@
                                         <td><?= $faq['id']; ?></td>
                                         <td><?= $faq['title']; ?></td>
                                         <td>
-                                            <a class="btn btn-primary btn-sm" href="<?= base_url('admin/faq/edit/' . $faq['id']); ?>">
-                                                <i class="ri-edit-box-line"></i>
+                                            <a href="<?= base_url('admin/faq/edit/' . $faq['id']) ?>" class="btn btn-warning btn-sm">
+                                                <i class="ri-pencil-line"></i> Edit
                                             </a>
-                                            <a class="btn btn-danger btn-sm" href="<?= base_url('admin/faq/delete/' . $faq['id']); ?>">
-                                                <i class="ri-delete-bin-line"></i>
+                                            <a href="<?= base_url('admin/faq/delete/' . $faq['id']) ?>"
+                                               class="btn btn-danger btn-sm"
+                                               onclick="return confirm('Are you sure you want to delete this membership?')">
+                                                <i class="ri-delete-bin-line"></i> Delete
                                             </a>
                                         </td>
                                     </tr>

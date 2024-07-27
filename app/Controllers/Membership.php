@@ -68,19 +68,19 @@ class Membership extends BaseController {
         // Validate input data
         $validationRules = [
             'name' => 'required|min_length[3]|max_length[255]',
-            'price' => 'required|decimal',
-            'time' => 'required|integer'
+            'price' => 'required|numeric',
+            'time' => 'required|in_list[86400,2592000,0]',
+            'comments' => 'permit_empty|max_length[1000]'
         ];
 
         if (!$this->validate($validationRules)) {
-            // If validation fails, return back with errors and old input
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $id = $this->request->getPost('id');
         $name = $this->request->getPost('name');
         $price = $this->request->getPost('price');
-        $time = $this->request->getPost('time');
+        $time = $this->request->getPost('time'); // Time is already in seconds
         $comments = $this->request->getPost('comments');
 
         $membershipData = [
@@ -92,19 +92,18 @@ class Membership extends BaseController {
 
         if ($id) {
             // Editing an existing membership
-            $membership = $this->membershipModel->getById($id);
+            $membership = $this->membershipModel->find($id);
 
             if (!$membership) {
-                // If membership not found, redirect to the manage memberships page with an error message
                 return redirect()->to('admin/membership')->with('fail', 'Membership not found.');
             }
 
-            $this->membershipModel->updateMembership($id, $membershipData);
+            $this->membershipModel->update($id, $membershipData);
             $message = 'Membership updated successfully.';
             return redirect()->to('admin/membership/edit/' . $id)->with('success', $message);
         } else {
             // Adding a new membership
-            $this->membershipModel->create($membershipData);
+            $this->membershipModel->insert($membershipData);
             $message = 'Membership added successfully.';
             return redirect()->to('admin/membership')->with('success', $message);
         }

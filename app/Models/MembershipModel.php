@@ -15,11 +15,11 @@ class MembershipModel extends Model {
     protected $protectFields = true;
     protected $allowedFields = ['name', 'price', 'comments', 'time'];
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat = 'datetime';
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
-    protected $deletedField = 'deleted_at'; // Only needed if soft deletes are used
+    protected $deletedField = 'deleted_at';
     // Validation
     protected $validationRules = [
         'name' => 'required|min_length[3]|max_length[255]',
@@ -122,7 +122,7 @@ class MembershipModel extends Model {
      * @return array
      */
     public function getByLatest($limit = 10) {
-        return $this->orderBy('created_at', 'DESC')->findAll($limit);
+        return $this->orderBy('id', 'DESC')->findAll($limit);
     }
 
     /**
