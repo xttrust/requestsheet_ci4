@@ -18,10 +18,10 @@
         </li><!-- End Frontend Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#modules-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link" href="#" data-bs-target="#modules-nav" data-bs-toggle="collapse">
                 <i class="bi bi-gear"></i><span>Modules</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="modules-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="modules-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="<?= base_url('admin/users'); ?>">Users</a>
                 </li>
@@ -32,13 +32,14 @@
                     <a href="<?= base_url('admin/pages'); ?>">Pages</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('admin/news'); ?>">News</a>
+                    <a href="<?= base_url('admin/membership'); ?>">Membership Prices</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('admin/membership'); ?>">Membership Prices</a>
+                    <a href="<?= base_url('admin/subscriptions'); ?>">Subscriptions</a>
                 </li>
             </ul>
         </li><!-- End Modules Nav -->
+
 
         <li class="nav-heading">Settings</li>
 

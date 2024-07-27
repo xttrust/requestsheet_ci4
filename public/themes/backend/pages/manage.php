@@ -36,7 +36,7 @@
                         <?= view('../../public/themes/backend/show_messages'); ?>
 
                         <!-- Pages Table -->
-                        <table class="table table-striped">
+                        <table class="table datatable">
                             <thead>
                                 <tr>
                                     <th>#</th>

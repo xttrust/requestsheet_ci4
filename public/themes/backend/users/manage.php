@@ -84,7 +84,7 @@
 
                                         <td>
                                             <a href="<?= base_url('admin/users/edit/' . $user->id) ?>" class="btn btn-warning btn-sm">
-                                                <i class="ri-pencil-line"></i> Edit
+                                                <i class="ri-edit-line"></i> Edit
                                             </a>
                                             <a href="<?= base_url('admin/users/delete/' . $user->id) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this membership?')">
                                                 <i class="ri-delete-bin-line"></i> Delete

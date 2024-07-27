@@ -45,7 +45,7 @@
                                         <td><?= $faq['title']; ?></td>
                                         <td>
                                             <a href="<?= base_url('admin/faq/edit/' . $faq['id']) ?>" class="btn btn-warning btn-sm">
-                                                <i class="ri-pencil-line"></i> Edit
+                                                <i class="ri-edit-line"></i> Edit
                                             </a>
                                             <a href="<?= base_url('admin/faq/delete/' . $faq['id']) ?>"
                                                class="btn btn-danger btn-sm"

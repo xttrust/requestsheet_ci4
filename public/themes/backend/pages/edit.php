@@ -51,12 +51,13 @@
                             <!-- Position Input -->
                             <div class="mb-3">
                                 <label class="form-label" for="position">Position</label>
-                                <input class="form-control"
-                                       type="text"
-                                       id="position"
-                                       name="position"
-                                       value="<?= $page ? esc($page['position']) : '' ?>">
+                                <select class="form-select" id="position" name="position" required>
+                                    <option value="" disabled>Select position</option>
+                                    <option value="top" <?= isset($page) && $page['position'] == 'top' ? 'selected' : '' ?>>Top</option>
+                                    <option value="footer" <?= isset($page) && $page['position'] == 'footer' ? 'selected' : '' ?>>Footer</option>
+                                </select>
                             </div>
+
 
                             <!-- Status Select -->
                             <div class="mb-3">
@@ -70,7 +71,7 @@
                             <!-- Body Textarea -->
                             <div class="mb-3">
                                 <label class="form-label" for="body">Body</label>
-                                <textarea id="body" class="form-control" name="body" rows="10"><?= $page ? esc($page['body']) : '' ?></textarea>
+                                <textarea id="body" class="form-control tinymce-editor" name="body" rows="10"><?= $page ? esc($page['body']) : '' ?></textarea>
                             </div>
 
                             <!-- Slug Input -->

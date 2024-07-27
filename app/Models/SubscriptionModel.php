@@ -6,100 +6,58 @@ use CodeIgniter\Model;
 
 class SubscriptionModel extends Model {
 
+    protected $DBGroup = 'default';
     protected $table = 'subscription';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
-    protected $useSoftDeletes = false; // Set to true if using soft deletes
+    protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = [
-        'id', 'user_id', 'membership_id', 'price',
-        'start_date', 'end_date', 'status'
-    ]; // Adjust according to your database schema
-    protected bool $allowEmptyInserts = false;
-    protected bool $updateOnlyChanged = true;
-    protected array $casts = [];
-    protected array $castHandlers = [];
+    protected $allowedFields = ['user_id', 'membership_id', 'start_date', 'end_date', 'status'];
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = false;  // No timestamps in your table
     protected $dateFormat = 'datetime';
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
-    protected $deletedField = 'deleted_at'; // Define if using soft deletes
+    protected $deletedField = 'deleted_at';
     // Validation
-    protected $validationRules = [];
+    protected $validationRules = [
+        'user_id' => 'required|integer',
+        'membership_id' => 'required|integer',
+        'start_date' => 'required|valid_date',
+        'end_date' => 'required|valid_date',
+        'status' => 'required|in_list[active,inactive]',
+    ];
     protected $validationMessages = [];
     protected $skipValidation = false;
-    protected $cleanValidationRules = true;
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert = [];
-    protected $afterInsert = [];
-    protected $beforeUpdate = [];
-    protected $afterUpdate = [];
-    protected $beforeFind = [];
-    protected $afterFind = [];
-    protected $beforeDelete = [];
-    protected $afterDelete = [];
 
-    /**
-     * Retrieve all subscriptions.
-     *
-     * @return array
-     */
     public function getAll() {
         return $this->findAll();
     }
 
-    /**
-     * Get a subscription by its ID.
-     *
-     * @param int $id
-     * @return array|null
-     */
     public function getById($id) {
         return $this->find($id);
+    }
+
+    public function createSubscription(array $data) {
+        return $this->insert($data);
+    }
+
+    public function updateSubscription($id, array $data) {
+        return $this->update($id, $data);
+    }
+
+    public function deleteSubscription($id) {
+        return $this->delete($id);
     }
 
     /**
      * Get subscriptions by user ID.
      *
-     * @param int $userId
+     * @param int $userId The user ID to search by.
      * @return array
      */
     public function getByUserId($userId) {
         return $this->where('user_id', $userId)->findAll();
-    }
-
-    /**
-     * Insert a new subscription.
-     *
-     * @param array $data
-     * @return int|string|null
-     */
-    public function create(array $data) {
-        $this->insert($data);
-        return $this->insertID();
-    }
-
-    /**
-     * Update a subscription record.
-     *
-     * @param int $id
-     * @param array $data
-     * @return bool
-     */
-    public function updateRecord($id, array $data) {
-        return $this->update($id, $data);
-    }
-
-    /**
-     * Delete a subscription by its ID.
-     *
-     * @param int $id
-     * @return bool
-     */
-    public function deleteRecord($id) {
-        return $this->delete($id);
     }
 }

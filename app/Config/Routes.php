@@ -80,6 +80,13 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('pages/edit', 'Pages::edit'); // Route for adding a new page
     $routes->post('pages/save', 'Pages::save');
     $routes->get('pages/delete/(:num)', 'Pages::delete/$1');
+
+    // Subscriptions management routes
+    $routes->get('subscriptions', 'Subscriptions::manage');
+    $routes->get('subscriptions/edit/(:num)', 'Subscriptions::edit/$1');
+    $routes->get('subscriptions/edit', 'Subscriptions::edit');
+    $routes->post('subscriptions/save', 'Subscriptions::save');
+    $routes->get('subscriptions/delete/(:num)', 'Subscriptions::delete/$1');
 });
 
 /*
