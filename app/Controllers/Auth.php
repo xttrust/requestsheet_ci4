@@ -65,6 +65,15 @@ class Auth extends BaseController {
         // Check if the user exists and the password is correct
         if ($user && password_verify($password, $user['hash_pass'])) {
             // Authentication successful
+            // Check if the account status, if not active, redirect with propper messages
+            if ($user['status'] === "inactive") {
+                $message = 'This account was not activated yet. Please check your email';
+                return redirect()->to('login')->with('fail', $message);
+            }
+            if ($user['status'] === "banned") {
+                $message = 'This account is banned! Please contact support.';
+                return redirect()->to('login')->with('fail', $message);
+            }
             // Store user information in session
             session()->set('userId', $user['id']);
             session()->set('userRole', $user['role']);

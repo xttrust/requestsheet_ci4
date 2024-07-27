@@ -11,9 +11,9 @@
                 <p class="p-v2">Please fill in all required fields</p>
             </div>
         </div>
-        <div class="row">
+        <div class="row justify-content-center">
             <!-- Registration Form -->
-            <div class="col-12 col-lg-10 offset-0 offset-lg-1 sk__contact-form-col d-flex justify-content-end">
+            <div class="col-12 col-md-10 col-lg-6 sk__contact-form-col">
                 <div class="sk__contact-right text-center text-sm-start">
                     <?php echo view('../../public/themes/frontend/form_errors'); ?>
                     <form class="sk__form sk__contact-form" action="<?= base_url('register'); ?>" method="post">
