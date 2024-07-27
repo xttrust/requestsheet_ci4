@@ -7,24 +7,41 @@ use CodeIgniter\Model;
 class MembershipModel extends Model {
 
     protected $DBGroup = 'default';
-    protected $table = 'membership';
+    protected $table = 'membership'; // Ensure this matches your actual table name
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['id', 'name', 'price', 'comments', 'time'];
+    protected $allowedFields = ['name', 'price', 'comments', 'time'];
     // Dates
     protected $useTimestamps = true;
     protected $dateFormat = 'datetime';
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
-    protected $deletedField = 'deleted_at';
+    protected $deletedField = 'deleted_at'; // Only needed if soft deletes are used
     // Validation
-    protected $validationRules = [];
-    protected $validationMessages = [];
+    protected $validationRules = [
+        'name' => 'required|min_length[3]|max_length[255]',
+        'price' => 'required|decimal',
+        'time' => 'required|integer'
+    ];
+    protected $validationMessages = [
+        'name' => [
+            'required' => 'The membership name is required.',
+            'min_length' => 'The membership name must be at least 3 characters long.',
+            'max_length' => 'The membership name cannot exceed 255 characters.'
+        ],
+        'price' => [
+            'required' => 'The price is required.',
+            'decimal' => 'The price must be a decimal number.'
+        ],
+        'time' => [
+            'required' => 'The duration is required.',
+            'integer' => 'The duration must be an integer.'
+        ]
+    ];
     protected $skipValidation = false;
-    protected $cleanValidationRules = true;
     // Callbacks
     protected $allowCallbacks = true;
     protected $beforeInsert = [];
@@ -167,7 +184,7 @@ class MembershipModel extends Model {
      */
     public function search($query, $limit = 10) {
         return $this->like('name', $query)
-                        ->orLike('description', $query)
+                        ->orLike('comments', $query) // Assuming 'comments' is used for description
                         ->orderBy('created_at', 'DESC')
                         ->findAll($limit);
     }

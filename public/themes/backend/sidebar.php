@@ -23,24 +23,19 @@
             </a>
             <ul id="modules-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="<?= base_url('admin/users'); ?>">
-                        <i class="bi bi-people"></i><span>Users</span>
-                    </a>
+                    <a href="<?= base_url('admin/users'); ?>">Users</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('admin/pages'); ?>">
-                        <i class="bi bi-file-earmark"></i><span>Pages</span>
-                    </a>
+                    <a href="<?= base_url('admin/faq'); ?>">FAQ</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('admin/news'); ?>">
-                        <i class="bi bi-newspaper"></i><span>News</span>
-                    </a>
+                    <a href="<?= base_url('admin/pages'); ?>">Pages</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('admin/membership'); ?>">
-                        <i class="bi bi-currency-exchange"></i><span>Membership Prices</span>
-                    </a>
+                    <a href="<?= base_url('admin/news'); ?>">News</a>
+                </li>
+                <li>
+                    <a href="<?= base_url('admin/membership'); ?>">Membership Prices</a>
                 </li>
             </ul>
         </li><!-- End Modules Nav -->
@@ -53,14 +48,10 @@
             </a>
             <ul id="settings-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="<?= base_url('admin/email-settings'); ?>">
-                        <i class="bi bi-envelope"></i><span>Email</span>
-                    </a>
+                    <a href="<?= base_url('admin/email-settings'); ?>">Email</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('admin/layout-settings'); ?>">
-                        <i class="bi bi-layout-text-window-reverse"></i><span>Layout</span>
-                    </a>
+                    <a href="<?= base_url('admin/layout-settings'); ?>">Layout</a>
                 </li>
             </ul>
         </li><!-- End Settings Nav -->

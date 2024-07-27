@@ -36,20 +36,58 @@ class FaqModel extends Model {
     protected $beforeDelete = [];
     protected $afterDelete = [];
 
-    public function countWhere($row, $value) {
-        $this->where($row, $value);
-        return $this->countAllResults();
+    public function getAllOrderedBy($order, $by) {
+        return $this->orderBy($by, $order)->asObject()->findAll();
     }
 
-    public function getByLatest() {
-        return $this->orderBy('id', 'DESC')->get()->getResult();
+    /**
+     * Retrieve all subscriptions.
+     *
+     * @return array
+     */
+    public function getAll() {
+        return $this->findAll();
     }
 
+    /**
+     * Get a subscription by its ID.
+     *
+     * @param int $id
+     * @return array|null
+     */
     public function getById($id) {
-        return $this->where('id', $id)->get()->getRow();
+        return $this->find($id);
     }
 
-    public function getBy($row, $value) {
-        return $this->where($row, $value)->get()->getRow();
+    /**
+     * Insert a new subscription.
+     *
+     * @param array $data
+     * @return int|string|null
+     */
+    public function create(array $data) {
+        $this->insert($data);
+        return $this->insertID();
+    }
+
+    /**
+     * Update a subscription record.
+     *
+     * @param int $id
+     * @param array $data
+     * @return bool
+     */
+    public function updateRecord($id, array $data) {
+        return $this->update($id, $data);
+    }
+
+    /**
+     * Delete a subscription by its ID.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function deleteRecord($id) {
+        return $this->delete($id);
     }
 }

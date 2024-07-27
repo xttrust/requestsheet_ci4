@@ -4,18 +4,18 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Models\MembershipModel;
-use App\Models\SubscriptionModel; // Added to handle subscriptions
+use App\Models\SubscriptionModel;
 
 class Users extends BaseController {
 
     private $userModel;
     private $membershipModel;
-    private $subscriptionModel; // Added to manage subscriptions
+    private $subscriptionModel;
 
     public function __construct() {
         $this->userModel = new UsersModel();
         $this->membershipModel = new MembershipModel();
-        $this->subscriptionModel = new SubscriptionModel(); // Initialize subscription model
+        $this->subscriptionModel = new SubscriptionModel();
     }
 
     /**

@@ -64,6 +64,13 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->post('users/approve/(:num)', 'Users::approve/$1');
     // Delete user (POST)
     $routes->get('users/delete/(:num)', 'Users::delete/$1');
+
+    /* FAQ Routes */
+    $routes->get('faq', 'Faq::manage');
+    $routes->get('faq/edit/(:any)', 'Faq::edit/$1');
+    $routes->get('faq/edit', 'Faq::edit'); // This is for adding new FAQ
+    $routes->post('faq/save', 'Faq::save');
+    $routes->get('faq/delete/(:num)', 'Faq::delete/$1');
 });
 
 /*
