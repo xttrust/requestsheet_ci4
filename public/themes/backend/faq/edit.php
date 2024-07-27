@@ -13,7 +13,7 @@
 
     <section class="section">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"><?= $faq ? 'Edit' : 'Add' ?> FAQ Details</h5>
@@ -35,7 +35,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label" for="content">Content</label>
-                                <textarea id="content" class="form-control" name="content" rows="5" required><?= $faq ? esc($faq['content']) : '' ?></textarea>
+                                <textarea id="content" class="form-control tinymce-editor" name="content" rows="5" required><?= $faq ? esc($faq['content']) : '' ?></textarea>
                             </div>
 
                             <div class="d-flex justify-content-between">

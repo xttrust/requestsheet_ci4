@@ -18,7 +18,7 @@
 
     <section class="section">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         <!-- Page Header -->
@@ -73,7 +73,7 @@
                             <!-- Comments Input -->
                             <div class="mb-3">
                                 <label class="form-label" for="comments">Comments</label>
-                                <textarea id="comments" class="form-control" name="comments" rows="5"><?= $membership ? esc($membership['comments']) : '' ?></textarea>
+                                <textarea id="comments" class="form-control tinymce-editor" name="comments" rows="5"><?= $membership ? esc($membership['comments']) : '' ?></textarea>
                             </div>
 
                             <!-- Submit and Cancel Buttons -->

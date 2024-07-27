@@ -13,16 +13,20 @@ class PagesModel extends Model {
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['id', 'name', 'position', 'status', 'body', 'slug',
-        'seo_title', 'seo_description', 'protected', 'custom'];
+    protected $allowedFields = ['name', 'position', 'status', 'body', 'slug', 'seo_title', 'seo_description', 'protected', 'custom'];
     // Dates
     protected $useTimestamps = false;
     protected $dateFormat = 'datetime';
-    protected $createdField = 'created_at';
-    protected $updatedField = 'updated_at';
-    protected $deletedField = 'deleted_at';
+    protected $createdField = null;
+    protected $updatedField = null;
+    protected $deletedField = null;
     // Validation
-    protected $validationRules = [];
+    protected $validationRules = [
+        'name' => 'required|min_length[3]|max_length[255]',
+        'slug' => 'required|min_length[3]|max_length[255]|is_unique[pages.slug]',
+        'seo_title' => 'required|min_length[3]|max_length[255]',
+        'seo_description' => 'required|min_length[3]|max_length[255]',
+    ];
     protected $validationMessages = [];
     protected $skipValidation = false;
     protected $cleanValidationRules = true;
@@ -37,31 +41,42 @@ class PagesModel extends Model {
     protected $beforeDelete = [];
     protected $afterDelete = [];
 
-    public function countWhere($row, $value) {
-        $this->where($row, $value);
-        return $this->countAllResults();
+    /**
+     * Get all pages.
+     *
+     * @return array
+     */
+    public function getAll() {
+        return $this->findAll();
     }
 
-    public function getWhereSlug($slug) {
-        return $this->where('slug', $slug)
-                        ->limit(1)
-                        ->get()
-                        ->getRow();
-    }
-
-    public function getByLatest() {
-        return $this->orderBy('id', 'DESC')->get()->getResult();
-    }
-
-    public function getByPosition() {
-        return $this->orderBy('position', 'ASC')->get()->getResult();
-    }
-
+    /**
+     * Get a page by its ID.
+     *
+     * @param int $id
+     * @return array|null
+     */
     public function getById($id) {
-        return $this->where('id', $id)->get()->getRow();
+        return $this->find($id);
     }
 
-    public function getBy($row, $value) {
-        return $this->where($row, $value)->get()->getRow();
+    /**
+     * Get a page by its slug.
+     *
+     * @param string $slug
+     * @return array|null
+     */
+    public function getBySlug($slug) {
+        return $this->where('slug', $slug)->first();
+    }
+
+    /**
+     * Get pages by status.
+     *
+     * @param string $status
+     * @return array
+     */
+    public function getByStatus($status) {
+        return $this->where('status', $status)->findAll();
     }
 }

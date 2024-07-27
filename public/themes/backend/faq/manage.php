@@ -21,7 +21,7 @@
                         </div>
 
                         <div class="col-2">
-                            <a class="btn btn-secondary" href="<?= base_url('admin/faq/edit'); ?>">
+                            <a class="btn btn-primary" href="<?= base_url('admin/faq/edit'); ?>">
                                 <i class="ri-add-box-line"></i> Add new FAQ
                             </a>
                         </div>
