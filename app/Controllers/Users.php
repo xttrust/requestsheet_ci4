@@ -170,7 +170,7 @@ class Users extends BaseController {
             return redirect()->to(base_url('admin/users/edit/' . $userId))->with('success', 'Subscription suspended successfully.');
         }
 
-        // Get the membership duration
+        // Get the membership duration in seconds
         $membershipDuration = isset($membership['time']) ? $membership['time'] : 0;
         $currentTime = time();
         $membershipEndTime = $currentTime + $membershipDuration;
@@ -180,7 +180,8 @@ class Users extends BaseController {
             'user_id' => $userId,
             'membership_id' => $membershipId,
             'start_date' => $currentTime,
-            'end_date' => $membershipEndTime
+            'end_date' => $membershipEndTime,
+            'status' => 'active'
         ];
 
         // Check for existing subscription
@@ -206,9 +207,13 @@ class Users extends BaseController {
     private function _suspendMembership($userId) {
         $currentTime = time();
         $subscriptionData = [
-            'end_date' => $currentTime - 100
+            'end_date' => $currentTime - 100, // Mark the subscription as ended in the past
+            'status' => 'inactive'
         ];
-        $this->subscriptionModel->where('user_id', $userId)->set($subscriptionData)->update();
+        $existingSubscription = $this->subscriptionModel->where('user_id', $userId)->first();
+        if ($existingSubscription) {
+            $this->subscriptionModel->update($existingSubscription['id'], $subscriptionData);
+        }
     }
 
     /**

@@ -24,8 +24,8 @@ class SubscriptionModel extends Model {
     protected $validationRules = [
         'user_id' => 'required|integer',
         'membership_id' => 'required|integer',
-        'start_date' => 'required|valid_date',
-        'end_date' => 'required|valid_date',
+        'start_date' => 'required',
+        'end_date' => 'required',
         'status' => 'required|in_list[active,inactive]',
     ];
     protected $validationMessages = [];
