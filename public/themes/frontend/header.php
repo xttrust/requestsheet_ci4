@@ -17,11 +17,7 @@
 
         <title><?= isset($pageTitle) ? $pageTitle : "Untitled Webpage"; ?></title>
 
-        <link rel="icon" href="favicon.ico" type="image/x-icon">
-        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="<?= $themeUrl; ?>assets/images/apple-touch-icon-72x72-precomposed.png" sizes="72x72" />
-        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="<?= $themeUrl; ?>assets/images/apple-touch-icon-114x114-precomposed.png" sizes="114x114" />
-        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="<?= $themeUrl; ?>assets/images/apple-touch-icon-144x144-precomposed.png" sizes="144x144" />
-        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="<?= $themeUrl; ?>assets/images/apple-touch-icon-precomposed.png" />
+        <link rel="icon" href="<?= base_url('public/uploads/images/' . ($settings['favicon'] ?? 'default_favicon.ico')) ?>">
 
         <!-- Bootstrap CSS -->
         <link href="<?= $themeUrl; ?>assets/vendor/bootstrap/5.1.3/bootstrap.min.css" rel="stylesheet">
@@ -76,14 +72,16 @@
 
             <!-- Mobile Menu Logo -->
             <a class="sk__mobile-main-logo" href="<?= base_url(); ?>">
-                <img alt="Website logo." src="<?= $themeUrl; ?>assets/images/logo-normal.png">
+                <img alt="<?= esc($settings['website_name'] ?? 'Default Website Name') ?>"
+                     src="<?= base_url('public/uploads/images/' . ($settings['logo'] ?? 'default_logo.png')) ?>">
             </a>
 
             <nav id="main-nav" style="opacity: 0;" class="sk__menu navbar sk__navbar navbar-expand-lg navbar-dark static-top">
 
                 <!-- Desktop Menu Logo -->
-                <a class="navbar-brand" href="#">
-                    <img id="sk__main-logo" alt="Website logo." src="<?= $themeUrl; ?>assets/images/logo-normal.png">
+                <a class="navbar-brand" href="<?= base_url(); ?>">
+                    <img id="sk__main-logo" alt="<?= esc($settings['website_name'] ?? 'Default Website Name') ?>"
+                         src="<?= base_url('public/uploads/images/' . ($settings['logo'] ?? 'default_logo.png')) ?>">
                 </a>
 
                 <!-- The Menu -->
@@ -92,7 +90,8 @@
                     <!-- Mobile Menu Logo (only use if "close" buttons are set to false in JS) -->
                     <li data-nav-custom-content class="custom-content sk__mobile-menu-logo">
                         <a class="sk__mobile-navbar-brand" href="<?= base_url(); ?>">
-                            <img alt="Website mobile logo." src="<?= $themeUrl; ?>assets/images/logo-mobile.png">
+                            <img alt="<?= esc($settings['website_name'] ?? 'Default Website Name') ?>"
+                                 src="<?= base_url('public/uploads/images/' . ($settings['logo'] ?? 'default_logo.png')) ?>">
                         </a>
                     </li>
 

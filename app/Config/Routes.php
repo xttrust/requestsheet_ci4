@@ -95,8 +95,11 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('settings/general', 'AppSettings::general');
     $routes->post('settings/general', 'AppSettings::general');
 
+    // Layout Settings Routes
     $routes->get('settings/layout', 'AppSettings::layout');
-    $routes->post('settings/layout', 'AppSettings::layout');
+    // Handle the uploads
+    $routes->post('settings/layout/upload-logo', 'AppSettings::uploadLogo');
+    $routes->post('settings/layout/upload-favicon', 'AppSettings::uploadFavicon');
 
     $routes->get('settings/security', 'AppSettings::security');
     $routes->post('settings/save', 'AppSettings::saveSettings');

@@ -104,6 +104,16 @@ class AppSettings extends BaseController {
         return $this->templates->backend($data);
     }
 
+    public function security() {
+        $data = [
+            'pageTitle' => 'Administration > Settings > Security',
+            'viewPath' => 'settings/security',
+            'loggedUser' => $this->appSecurity->getLoggedInUser()
+        ];
+
+        return $this->templates->backend($data);
+    }
+
     public function layout() {
         $data = [
             'pageTitle' => 'Administration > Settings > Layout',
@@ -114,13 +124,77 @@ class AppSettings extends BaseController {
         return $this->templates->backend($data);
     }
 
-    public function security() {
-        $data = [
-            'pageTitle' => 'Administration > Settings > Security',
-            'viewPath' => 'settings/security',
-            'loggedUser' => $this->appSecurity->getLoggedInUser()
-        ];
+    public function uploadLogo() {
+        if ($this->request->getPost('submit') == "Upload Logo") {
+            $file = $this->request->getFile('logo');
 
-        return $this->templates->backend($data);
+            if ($file->isValid() && !$file->hasMoved()) {
+                $uploadPath = ROOTPATH . 'public/uploads/images/';
+                $fileName = 'logo.png'; // Fixed filename for the logo
+                // Delete existing logo file if it exists
+                if (file_exists($uploadPath . $fileName)) {
+                    unlink($uploadPath . $fileName);
+                }
+
+                // Move the new file to the uploads folder
+                $file->move($uploadPath, $fileName);
+
+                // Get the row from the database
+                $dbLogoRow = $this->settingsModel->getSettingByRow('logo');
+
+                if ($dbLogoRow) {
+                    // Update the path in the database using the row id
+                    $this->settingsModel->updateSetting($dbLogoRow['id'], ['row' => 'logo', 'content' => $fileName]);
+                } else {
+                    // Handle the case where the setting does not exist
+                    $this->settingsModel->insertSetting(['row' => 'logo', 'content' => $fileName]);
+                }
+
+                // Set success message
+                session()->setFlashdata('success', 'Logo uploaded successfully.');
+            } else {
+                // Set error message
+                session()->setFlashdata('error', 'Failed to upload logo.');
+            }
+        }
+
+        return redirect()->to(base_url('admin/settings/layout'));
+    }
+
+    public function uploadFavicon() {
+        if ($this->request->getPost('submit') == "Upload Favicon") {
+            $file = $this->request->getFile('favicon');
+
+            if ($file->isValid() && !$file->hasMoved()) {
+                $uploadPath = ROOTPATH . 'public/uploads/images/';
+                $fileName = 'favicon.ico'; // Fixed filename for the favicon
+                // Delete existing favicon file if it exists
+                if (file_exists($uploadPath . $fileName)) {
+                    unlink($uploadPath . $fileName);
+                }
+
+                // Move the new file to the uploads folder
+                $file->move($uploadPath, $fileName);
+
+                // Get the row from the database
+                $dbFaviconRow = $this->settingsModel->getSettingByRow('favicon');
+
+                if ($dbFaviconRow) {
+                    // Update the path in the database using the row id
+                    $this->settingsModel->updateSetting($dbFaviconRow['id'], ['row' => 'favicon', 'content' => $fileName]);
+                } else {
+                    // Handle the case where the setting does not exist
+                    $this->settingsModel->insertSetting(['row' => 'favicon', 'content' => $fileName]);
+                }
+
+                // Set success message
+                session()->setFlashdata('success', 'Favicon uploaded successfully.');
+            } else {
+                // Set error message
+                session()->setFlashdata('error', 'Failed to upload favicon.');
+            }
+        }
+
+        return redirect()->to(base_url('admin/settings/layout'));
     }
 }
