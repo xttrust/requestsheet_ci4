@@ -84,6 +84,13 @@ class Users extends BaseController {
         if (!$id || !is_numeric($id)) {
             return redirect()->to(base_url('admin/users'))->with('fail', 'Invalid user ID.');
         }
+        // Get the user to work with.
+        $user = $this->userModel->getById($id);
+        // Check for a valid user in database
+        if (!$user) {
+            $alert = "User not found in database with this id: {$id}";
+            return redirect()->to(base_url('admin/users'))->with('fail', $alert);
+        }
 
         // Define validation rules
         $rules = [
@@ -105,7 +112,8 @@ class Users extends BaseController {
             'email' => $this->request->getPost('email'),
             'first_name' => $this->request->getPost('first_name'),
             'last_name' => $this->request->getPost('last_name'),
-            'status' => $this->request->getPost('status')
+            'status' => $this->request->getPost('status'),
+            'role' => $this->request->getPost('role')
         ];
 
         // Update password if provided
@@ -114,6 +122,11 @@ class Users extends BaseController {
             $data['password'] = password_hash($password, PASSWORD_DEFAULT);
         }
 
+        // Prevent the users to change Super Admin role
+        if ($user['username'] === 'admin' AND $data['role'] != 'admin') {
+            $alert = "Super Admin role cannot be changed.";
+            return redirect()->to(base_url('admin/users'))->with('fail', $alert);
+        }
         // Update user in database
         $this->userModel->update($id, $data);
 
@@ -185,6 +198,11 @@ class Users extends BaseController {
         return redirect()->to(base_url('admin/users/edit/' . $userId))->with('success', 'Subscription updated successfully.');
     }
 
+    /**
+     * Cancel a user subscription
+     * @param int|null $userId of the user to cancel
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     */
     private function _suspendMembership($userId) {
         $currentTime = time();
         $subscriptionData = [
@@ -226,6 +244,12 @@ class Users extends BaseController {
         $user = $this->userModel->find($id);
         if (!$user) {
             return redirect()->to(base_url('admin/users'))->with('fail', 'User not found.');
+        }
+
+        // Prevent the user to delete administrators
+        if ($user['useraname'] === 'admin' OR $user['role'] === 'admin') {
+            $alert = "You can't delete an administrator.";
+            return redirect()->to(base_url('admin/users'))->with('fail', $alert);
         }
 
         // Delete the user
