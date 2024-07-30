@@ -49,10 +49,16 @@
             </a>
             <ul id="settings-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="<?= base_url('admin/email-settings'); ?>">Email</a>
+                    <a href="<?= base_url('admin/settings/general'); ?>">General</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('admin/layout-settings'); ?>">Layout</a>
+                    <a href="<?= base_url('admin/settings/security'); ?>">Security</a>
+                </li>
+                <li>
+                    <a href="<?= base_url('admin/settings/email'); ?>">Email</a>
+                </li>
+                <li>
+                    <a href="<?= base_url('admin/settings/layout'); ?>">Layout</a>
                 </li>
             </ul>
         </li><!-- End Settings Nav -->

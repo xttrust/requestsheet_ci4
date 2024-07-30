@@ -10,9 +10,9 @@ class SettingsModel extends Model {
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
-    protected $useSoftDeletes = false; // Set to true if using soft deletes
+    protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['id', 'row', 'content']; // Adjust according to your database schema
+    protected $allowedFields = ['id', 'row', 'content'];
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
     protected array $casts = [];
@@ -22,7 +22,7 @@ class SettingsModel extends Model {
     protected $dateFormat = 'datetime';
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
-    protected $deletedField = 'deleted_at'; // Define if using soft deletes
+    protected $deletedField = 'deleted_at';
     // Validation
     protected $validationRules = [];
     protected $validationMessages = [];
@@ -56,6 +56,10 @@ class SettingsModel extends Model {
      */
     public function getSettingById($id) {
         return $this->find($id);
+    }
+
+    public function getSettingByRow($row) {
+        return $this->where('row', $row)->first();
     }
 
     /**

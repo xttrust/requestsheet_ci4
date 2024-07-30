@@ -75,9 +75,9 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('membership/delete/(:num)', 'Membership::delete/$1');
 
     // Pages management routes
-    $routes->get('pages', 'Pages::manage'); // Changed to 'pages' to match the pattern
+    $routes->get('pages', 'Pages::manage');
     $routes->get('pages/edit/(:num)', 'Pages::edit/$1');
-    $routes->get('pages/edit', 'Pages::edit'); // Route for adding a new page
+    $routes->get('pages/edit', 'Pages::edit');
     $routes->post('pages/save', 'Pages::save');
     $routes->get('pages/delete/(:num)', 'Pages::delete/$1');
 
@@ -87,6 +87,19 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('subscriptions/edit', 'Subscriptions::edit');
     $routes->post('subscriptions/save', 'Subscriptions::save');
     $routes->get('subscriptions/delete/(:num)', 'Subscriptions::delete/$1');
+
+    // Settings
+    $routes->get('settings/email', 'AppSettings::email');
+    $routes->post('settings/email', 'AppSettings::email');
+
+    $routes->get('settings/general', 'AppSettings::general');
+    $routes->post('settings/general', 'AppSettings::general');
+
+    $routes->get('settings/layout', 'AppSettings::layout');
+    $routes->post('settings/layout', 'AppSettings::layout');
+
+    $routes->get('settings/security', 'AppSettings::security');
+    $routes->post('settings/save', 'AppSettings::saveSettings');
 });
 
 /*
