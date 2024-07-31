@@ -155,13 +155,6 @@
 <!-- Main Theme JS File -->
 <script src="<?= $themeUrl; ?>assets/js/theme.js"></script>
 
-<!-- Theme Preview Only Scripts -->
-<script src="<?= $themeUrl; ?>assets/vendor/spectrum/spectrum.min.js"></script>
-<script src="<?= $themeUrl; ?>assets/vendor/clipboard/clipboard.min.js"></script>
-<script src="<?= $themeUrl; ?>assets/js/theme-preview-only.js"></script>
-
-<!-- Theme Preview Only CSS -->
-<link href="<?= $themeUrl; ?>assets/vendor/spectrum/spectrum.min.css" rel="stylesheet">
 
 </body>
 

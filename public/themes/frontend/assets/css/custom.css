@@ -41,9 +41,8 @@
 /* Hover effect with animation */
 .btn-profile:hover {
     color: #fff;
-    border-bottom: 5px solid #680f5e;
     background-color: rgba(9, 9, 9, 0.2); /* Dark color with 70% opacity */
-    transition: background-color .5s ease-in-out, border-bottom .5s ease-in-out;
+    transition: background-color .5s ease-in-out;
 }
 
 /* Additional fade-in effect */
