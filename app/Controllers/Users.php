@@ -252,7 +252,7 @@ class Users extends BaseController {
         }
 
         // Prevent the user to delete administrators
-        if ($user['useraname'] === 'admin' OR $user['role'] === 'admin') {
+        if ($user['username'] === 'admin' OR $user['role'] === 'admin') {
             $alert = "You can't delete an administrator.";
             return redirect()->to(base_url('admin/users'))->with('fail', $alert);
         }

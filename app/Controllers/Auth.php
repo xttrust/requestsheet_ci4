@@ -100,10 +100,8 @@ class Auth extends BaseController {
     private function setRememberMeCookie(int $userId) {
         helper('text');
         $cookieName = 'rememberMe';
-        $cookieValue = random_string('alnum', 64); // Generate a more secure random string
+        $cookieValue = random_string($userId); // Generate a more secure random string
         $expiration = time() + (30 * 24 * 60 * 60); // 30 days
-        // Store the remember me token in the database
-        //$this->usersModel->update($userId, ['remember_token' => $cookieValue]);
         // Set the cookie
         $this->response->setCookie($cookieName, $cookieValue, $expiration, '', '/', '', true, true); // HttpOnly and Secure flags
     }
