@@ -1,8 +1,7 @@
 /* 
     Created on : Jul 25, 2024, 6:49:05 AM
-    Author     : Florin Pinta as xttrust
+    Author     : Florin Pinta alias xttrust
 */
-
 
 .form-check-input:checked {
     background-color: #0d6efd;
@@ -18,4 +17,46 @@
     text-decoration: underline;
 }
 
+.profile-top-spacer {
+    display: block;
+    height: 7rem;
+}
 
+.profile-header {
+    
+}
+
+.profile-header-buttons {
+    
+}
+
+/* General button styling */
+.btn-profile {
+    color: #ffffff;
+    border-radius: 0;
+    border: 0;
+    transition: .5s;
+}
+
+/* Hover effect with animation */
+.btn-profile:hover {
+    color: #fff;
+    border-bottom: 5px solid #680f5e;
+    background-color: rgba(9, 9, 9, 0.2); /* Dark color with 70% opacity */
+    transition: background-color .5s ease-in-out, border-bottom .5s ease-in-out;
+}
+
+/* Additional fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+.modal {
+    margin-top: 100px;
+}

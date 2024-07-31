@@ -34,7 +34,7 @@
         <!-- Theme CSS -->
         <link href="<?= $themeUrl; ?>assets/css/theme.css" rel="stylesheet">
         <link href="<?= $themeUrl; ?>assets/css/theme-colors.css" rel="stylesheet">
-        <link href="<?= $themeUrl; ?>assets/css/custom.css" rel="stylesheet">
+        <link href="<?= $themeUrl; ?>assets/css/custom.css?time=<?= time(); ?>" rel="stylesheet">
 
         <!-- Theme Preview Only CSS -->
         <link href="<?= $themeUrl; ?>assets/css/theme-preview-color-styler.css" rel="stylesheet">

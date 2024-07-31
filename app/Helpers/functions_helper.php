@@ -47,6 +47,16 @@ function asset_url($path = '') {
 }
 
 /**
+ * Generate the full path for uploads
+ *
+ * @param string $path Relative path to the uploads
+ * @return string Full URL to the uploads
+ */
+function uploads_url($path = '') {
+    return base_url('public/uploads/' . $path);
+}
+
+/**
  * Truncate a text string to a specified length, appending an ending if truncated.
  *
  * @param string $text The text to truncate
