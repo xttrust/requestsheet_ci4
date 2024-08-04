@@ -40,80 +40,109 @@
                         .then(response => response.json())
                         .then(data => {
                         const requestsContainer = document.getElementById('requestsContainer');
-                        requestsContainer.innerHTML = ''; // Clear previous content
+                                requestsContainer.innerHTML = ''; // Clear previous content
 
-                        data.data.forEach(request => {
-                        // Create request item
-                        const requestItem = document.createElement('div');
-                        requestItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-                        requestItem.innerHTML = `
-                                <div>
-            <h5 class="mb-1 text-dark">${request.song}</h5>
-                    <p class="mb-1 text-secondary">Requested by: ${request.name}</p>
-                    </div>
-                                <div class="btn-group" role="group">
-            <!-- Info button to trigger a modal -->
-                    <button type="button"
-                    class="btn btn-dark btn-small"
-                data-bs-toggle="modal"
-            data-bs-target="#infoModal"
-            title="View Comments"
-            onclick="showRequestDetails('${request.comment}')">
-                    <span class="icon-info2"></span>
+                                data.data.forEach(request => {
+                                // Create request item
+                                const requestItem = document.createElement('div');
+                                        requestItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                                        requestItem.id = `request-${request.id}`; // Fixe d  ID formatting
+                                        requestItem.innerHTML = `
+                                        <div>
+                        <h5 class="mb-1 text-dark">${request.song}</h5>
+                        <p class="mb-1 text-secondary">Requested by: ${request.name}</p>
+                                </div>
+                                                    <div class="btn-group" role="group">
+                                <!-- Info button to trigger a modal -->
+                            <button type="button"
+                        class="btn btn-dark btn-small"
+                        data-bs-toggle="modal"
+                                data-bs-target="#infoModal"
+                                title="View Comments"
+                                onclick="showRequestDetails('${request.comment}')">
+                                <span class="icon-info2"></span>
+                            </button>                         <!-- Accept button -->
+                        <button type="button"
+                        class="btn btn-success btn-small"
+                           title="Accept request"
+                           onclick="handleRequest('${request.id}', 'approve')">
+                        <span class="icon-check"></span>
                 </button>
-            <!-- Accept button -->
-                <button type="button"
-            class="btn btn-success btn-small"                                     title="Accept request"
-                    onclick="handleRequest('${request.id}', 'accepted')">
-                <span class="icon-check"></span>
-            </button>
-            <!-- Reject button -->
-            <button type="button"
-                    class="btn btn-danger btn-small"
-                    title="Reject request"
-                    onclick="handleRequest('${request.id}', 'rejected')">
-                <span class="icon-close"></span>
-            </button>
-            <!-- Email button -->
-            <a href="mailto:${request.email}"
-               class="btn btn-dark btn-small"
-               title="Email Requestor">
-                <span class="icon-envelope"></span>
-            </a>
-        </div>
-    `;
+                <!-- Reject button -->
+        <button type="button"
+            class="btn btn-danger btn-small"
+title="Reject request"
+onclick="handleRequest('${request.id}', 'reject')">
+    <span class="icon-close"></span>
+                        </button>
+                        <!-- Email button -->
+                        <a href="mailto:${request.email}"
+                           class="btn btn-dark btn-small"
+                           title="Email Requestor">
+                            <span class="icon-envelope"></span>
+                        </a>
+                    </div>
+                `;
 
-    requestsContainer.appendChild(requestItem);
-});
-})
-.catch(error => {
-console.error('Error fetching requests:', error);
-});
-    }
+                requestsContainer.appendChild(requestItem);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching requests:', error);
+        });
+}
 
 // Function to show request details in the modal
 function showRequestDetails(comment) {
-    const requestsContainer = document.getElementById('comment');
-    requestsContainer.innerHTML = comment;
+    const commentElement = document.getElementById('comment');
+    commentElement.innerHTML = comment;
 }
 
-// Function to handle accept/reject actions
+// Function to handle accept/reject/delete actions
 function handleRequest(requestId, action) {
-    fetch(`/api/requests/${requestId}`, {
-        method: 'PATCH', // Or 'POST', depending on your API design
+    let method, url;
+
+    if (action === 'approve') {
+        method = 'PATCH';
+        url = `/api/requests/approve/${requestId}`;
+        // Remove the request from the DOM when accepted
+        removeRequestFromDOM(requestId);
+    } else if (action === 'reject') {
+        method = 'PATCH';
+        url = `/api/requests/reject/${requestId}`;
+    } else if (action === 'delete') {
+        method = 'DELETE';
+        url = `/api/requests/delete/${requestId}`;
+    } else {
+        console.error('Unknown action:', action);
+        return;
+    }
+
+    fetch(url, {
+        method: method,
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ status: action })
+        body: method === 'PATCH' ? JSON.stringify({ status: action === 'approve' ? 'accepted' : 'rejected' }) : null
     })
     .then(response => response.json())
     .then(data => {
         console.log('Request updated:', data);
-        fetchRequests(); // Refresh the list
+        if (action !== 'approve') {
+            fetchRequests(); // Refresh the list if not approved
+        }
     })
     .catch(error => {
         console.error('Error updating request:', error);
     });
+}
+
+// Function to remove a request from the DOM
+function removeRequestFromDOM(requestId) {
+    const requestElement = document.getElementById(`request-${requestId}`);
+    if (requestElement) {
+        requestElement.remove();
+    }
 }
 
 // Initial fetch on page load

@@ -14,56 +14,96 @@ class Requests extends BaseController {
     }
 
     /**
-     * Get all requests.
+     * Get all requests sorted by created_at and votes
      *
      * @return ResponseInterface
      */
-    public function getAllRequests(): ResponseInterface {
-        $requests = $this->requestsModel->getAll();
-        return $this->respond([
-                    'status' => 200,
-                    'data' => $requests
-        ]);
+    public function getAllRequestsSorted() {
+        $requests = $this->requestsModel
+                ->where('status', 'pending')
+                ->orderBy('created_at', 'desc')
+                ->orderBy('votes', 'desc')
+                ->findAll();
+        return $this->response->setJSON(['data' => $requests]);
     }
 
     /**
-     * Get requests by status.
+     * Get request details by ID
      *
-     * @param string $status
+     * @param int $id
      * @return ResponseInterface
      */
-    public function getRequestsByStatus(string $status): ResponseInterface {
-        $requests = $this->requestsModel->getByStatus($status);
-        return $this->respond([
-                    'status' => 200,
-                    'data' => $requests
-        ]);
+    public function getRequestById($id) {
+        $request = $this->requestsModel->find($id);
+        if ($request) {
+            return $this->response->setJSON($request);
+        } else {
+            return $this->response->setStatusCode(404)->setJSON(['error' => 'Request not found']);
+        }
     }
 
     /**
-     * Get all requests sorted by created_at and votes.
+     * Update request status
      *
+     * @param int $id
      * @return ResponseInterface
      */
-    public function getAllRequestsSorted(): ResponseInterface {
-        $requests = $this->requestsModel->getAllSortedByCreatedAtAndVotes();
-        return $this->respond([
-                    'status' => 200,
-                    'data' => $requests
-        ]);
+    public function updateRequest($id) {
+        $status = $this->request->getPost('status');
+        $request = $this->requestsModel->find($id);
+        if ($request) {
+            $this->requestsModel->update($id, ['status' => $status]);
+            return $this->response->setJSON(['message' => 'Request updated successfully']);
+        } else {
+            return $this->response->setStatusCode(404)->setJSON(['error' => 'Request not found']);
+        }
     }
 
     /**
-     * Return a JSON response.
+     * Approve a request
      *
-     * @param array $data
-     * @param int $status
+     * @param int $id
      * @return ResponseInterface
      */
-    private function respond(array $data, int $status = 200): ResponseInterface {
-        return $this->response
-                        ->setStatusCode($status)
-                        ->setContentType('application/json')
-                        ->setBody(json_encode($data));
+    public function approveRequest($id) {
+        $request = $this->requestsModel->find($id);
+        if ($request) {
+            $this->requestsModel->update($id, ['status' => 'accepted']);
+            return $this->response->setJSON(['message' => 'Request approved successfully']);
+        } else {
+            return $this->response->setStatusCode(404)->setJSON(['error' => 'Request not found']);
+        }
+    }
+
+    /**
+     * Reject a request
+     *
+     * @param int $id
+     * @return ResponseInterface
+     */
+    public function rejectRequest($id) {
+        $request = $this->requestsModel->find($id);
+        if ($request) {
+            $this->requestsModel->update($id, ['status' => 'rejected']);
+            return $this->response->setJSON(['message' => 'Request rejected successfully']);
+        } else {
+            return $this->response->setStatusCode(404)->setJSON(['error' => 'Request not found']);
+        }
+    }
+
+    /**
+     * Delete a request
+     *
+     * @param int $id
+     * @return ResponseInterface
+     */
+    public function deleteRequest($id) {
+        $request = $this->requestsModel->find($id);
+        if ($request) {
+            $this->requestsModel->delete($id);
+            return $this->response->setJSON(['message' => 'Request deleted successfully']);
+        } else {
+            return $this->response->setStatusCode(404)->setJSON(['error' => 'Request not found']);
+        }
     }
 }
