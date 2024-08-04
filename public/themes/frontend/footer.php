@@ -10,7 +10,8 @@
 
         <div class="row footer-top">
             <div class="col-12 col-sm-6 top-footer-logo">
-                <img src="<?= $themeUrl; ?>assets/images/logo-footer.png" alt="Website logo for the footer.">
+                <img alt="<?= esc($settings['website_name'] ?? 'Default Website Name') ?>"
+                     src="<?= base_url('public/uploads/images/' . ($settings['logo'] ?? 'default_logo.png')) ?>">
             </div>
             <div class="col-12 col-sm-6 top-footer-tagline">
                 <h5 class="h5-elegant">ADVANCEMENT IN <strong>DESIGN</strong></h5>
@@ -154,6 +155,8 @@
 
 <!-- Main Theme JS File -->
 <script src="<?= $themeUrl; ?>assets/js/theme.js"></script>
+<!-- xttrust's custom JS File -->
+<script src="<?= $themeUrl; ?>assets/js/custom.js"></script>
 
 
 </body>

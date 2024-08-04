@@ -117,3 +117,13 @@ $routes->get('about', 'Home::about');
 $routes->get('contact', 'Home::contact');
 // Display FAQ page (GET)
 $routes->get('faq', 'Home::faq');
+
+/**
+ * API Routes
+ * Routes to handle all API calls
+ */
+// Routes for requests
+$routes->get('/api/requests', 'Requests::getAllRequests');
+$routes->get('/api/requests/status/(:segment)', 'Requests::getRequestsByStatus/$1');
+$routes->get('/api/requests/sorted', 'Requests::getAllRequestsSorted');
+
