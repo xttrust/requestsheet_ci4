@@ -21,7 +21,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body bg-white text-black">
-                        <p class="text-dark">Details about the request go here.</p>
+                        <p class="text-dark" id='comment'></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -40,30 +40,30 @@
                         .then(response => response.json())
                         .then(data => {
                         const requestsContainer = document.getElementById('requestsContainer');
-                                        requestsContainer.innerHTML = ''; // Clear previous content
+                        requestsContainer.innerHTML = ''; // Clear previous content
 
-                                        data.data.forEach(request => {
-                                        // Create request item
-                                        const requestItem = document.createElement('div');
-                                                requestItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-                                                requestItem.innerHTML = `
-                                                        <div>
-                        <h5 class="mb-1 text-dark">${request.song}</h5>
-                                                        <p class="mb-1 text-secondary">Requested by: ${request.name}</p>
-                                                </div>
-                                                <div class="btn-group" role="group">
-                                <!-- Info button to trigger a modal -->
-                                <button type="button"
-                                        class="btn btn-dark btn-small"
-                                        data-bs-toggle="modal"
-                    data-bs-target="#infoModal"
-                    title="View Comments"
-                    onclick="showRequestDetails('${request.id}')">
-                <span class="icon-info2"></span>
-            </button>
+                        data.data.forEach(request => {
+                        // Create request item
+                        const requestItem = document.createElement('div');
+                        requestItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                        requestItem.innerHTML = `
+                                <div>
+            <h5 class="mb-1 text-dark">${request.song}</h5>
+                    <p class="mb-1 text-secondary">Requested by: ${request.name}</p>
+                    </div>
+                                <div class="btn-group" role="group">
+            <!-- Info button to trigger a modal -->
+                    <button type="button"
+                    class="btn btn-dark btn-small"
+                data-bs-toggle="modal"
+            data-bs-target="#infoModal"
+            title="View Comments"
+            onclick="showRequestDetails('${request.comment}')">
+                    <span class="icon-info2"></span>
+                </button>
             <!-- Accept button -->
-            <button type="button"
-                    class="btn btn-success btn-small"                                     title="Accept request"
+                <button type="button"
+            class="btn btn-success btn-small"                                     title="Accept request"
                     onclick="handleRequest('${request.id}', 'accepted')">
                 <span class="icon-check"></span>
             </button>
@@ -92,10 +92,9 @@ console.error('Error fetching requests:', error);
     }
 
 // Function to show request details in the modal
-function showRequestDetails(requestId) {
-    // Fetch request details and update modal content
-    // Example: fetch(`/api/requests/${requestId}`).then(...);
-    console.log('Show details for request ID:', requestId);
+function showRequestDetails(comment) {
+    const requestsContainer = document.getElementById('comment');
+    requestsContainer.innerHTML = comment;
 }
 
 // Function to handle accept/reject actions
