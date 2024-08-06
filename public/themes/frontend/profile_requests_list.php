@@ -3,7 +3,7 @@
     <div class="container my-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Requests List</h2>
-            <button class="btn btn-outline-success" onclick="fetchRequests();">
+            <button class="btn btn-outline-success" onclick="fetchAllRequests();">
                 <span class="icon-refresh"></span> Refresh
             </button>
         </div>

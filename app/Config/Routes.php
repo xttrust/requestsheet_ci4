@@ -123,8 +123,9 @@ $routes->get('faq', 'Home::faq');
  * Routes to handle all API calls
  */
 // Routes for requests
-$routes->get('/api/requests/sorted', 'Requests::getAllRequestsSorted');
+$routes->get('/api/requests/pending', 'Requests::getAllRequestsSorted');
 $routes->get('/api/requests/rejected', 'Requests::getAllRejectedRequests');
+$routes->get('/api/requests/accepted', 'Requests::getAllAcceptedRequests');
 $routes->delete('/api/requests/delete/user/(:num)', 'Requests::deleteRequestsByUserId/$1');
 
 $routes->get('/api/requests/(:segment)', 'Requests::getRequestById/$1');

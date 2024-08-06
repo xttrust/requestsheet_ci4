@@ -99,6 +99,18 @@ class RequestsModel extends Model {
     }
 
     /**
+     * Get all accepted requests sorted by created_at and votes.
+     *
+     * @return array
+     */
+    public function getAllAcceptedRequestsSorted() {
+        return $this->where('status', 'accepted')
+                        ->orderBy('created_at', 'desc')
+                        ->orderBy('votes', 'desc')
+                        ->findAll();
+    }
+
+    /**
      * Get all rows sorted by created_at and votes.
      *
      * @return array
@@ -110,16 +122,18 @@ class RequestsModel extends Model {
     }
 
     /**
-     * Deletes all rows from the requests table by user ID.
+     * Deletes all rejected requests by user ID.
      *
      * @param int $userId The ID of the user whose requests are to be deleted.
      * @return bool True if the deletion was successful, false otherwise.
      */
     public function deleteByUserId($userId) {
         // Perform the delete operation
-        $result = $this->where('dj_id', $userId)->where('status', 'rejected')->delete();
+        $result = $this->where('dj_id', $userId)
+                ->where('status', 'rejected')
+                ->delete();
 
         // Return the result of the delete operation
-        return $result ? true : false;
+        return $result !== false;
     }
 }

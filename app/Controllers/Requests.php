@@ -28,6 +28,20 @@ class Requests extends BaseController {
     }
 
     /**
+     * Get all accepted requests sorted by created_at and votes
+     *
+     * @return ResponseInterface
+     */
+    public function getAllAcceptedRequests() {
+        $requests = $this->requestsModel
+                ->where('status', 'accepted')
+                ->orderBy('created_at', 'desc')
+                ->orderBy('votes', 'desc')
+                ->findAll();
+        return $this->response->setJSON(['data' => $requests]);
+    }
+
+    /**
      * Get all rejected requests sorted by created_at
      *
      * @return ResponseInterface
@@ -127,7 +141,6 @@ class Requests extends BaseController {
      * @return ResponseInterface JSON response indicating the result of the operation.
      */
     public function deleteRequestsByUserId($userId) {
-
         // Perform the delete operation
         $success = $this->requestsModel->deleteByUserId($userId);
 
@@ -147,6 +160,6 @@ class Requests extends BaseController {
      * @return ResponseInterface
      */
     private function fail($message, $status) {
-        return $this->respond(['error' => $message], $status);
+        return $this->response->setStatusCode($status)->setJSON(['error' => $message]);
     }
 }
