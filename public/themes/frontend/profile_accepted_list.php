@@ -3,9 +3,14 @@
     <div class="container my-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="text-success">Accepted Requests List</h2>
-            <button class="btn btn-outline-success">
-                <span class="icon-refresh"></span> Refresh Requests
-            </button>
+            <div>
+                <button class="btn btn-outline-success">
+                    <span class="icon-refresh"></span> Refresh
+                </button>
+                <button class="btn btn-outline-danger">
+                    <span class="icon-bin"></span> Clear all
+                </button>
+            </div>
         </div>
 
         <div class="list-group">
@@ -17,8 +22,8 @@
                 </div>
                 <div class="btn-group" role="group">
                     <!-- Vote button -->
-                    <button type="button" class="btn btn-danger btn-small" title="Love this song">
-                        <span class="icon-heart"></span>
+                    <button type="button" class="btn btn-danger btn-small">
+                        <span class="icon-heart"></span> <span class="badge text-bg-secondary">4</span>
                     </button>
                     <!-- Play button -->
                     <button type="button" class="btn btn-success btn-small" title="Play song">

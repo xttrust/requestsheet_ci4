@@ -156,7 +156,7 @@
 <!-- Main Theme JS File -->
 <script src="<?= $themeUrl; ?>assets/js/theme.js"></script>
 <!-- xttrust's custom JS File -->
-<script src="<?= $themeUrl; ?>assets/js/custom.js"></script>
+<script src="<?= $themeUrl; ?>assets/js/custom.js?time=<?= time(); ?>"></script>
 
 
 </body>

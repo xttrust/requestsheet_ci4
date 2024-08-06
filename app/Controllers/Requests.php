@@ -28,6 +28,19 @@ class Requests extends BaseController {
     }
 
     /**
+     * Get all rejected requests sorted by created_at
+     *
+     * @return ResponseInterface
+     */
+    public function getAllRejectedRequests() {
+        $requests = $this->requestsModel
+                ->where('status', 'rejected')
+                ->orderBy('created_at', 'desc')
+                ->findAll();
+        return $this->response->setJSON(['data' => $requests]);
+    }
+
+    /**
      * Get request details by ID
      *
      * @param int $id
@@ -105,5 +118,35 @@ class Requests extends BaseController {
         } else {
             return $this->response->setStatusCode(404)->setJSON(['error' => 'Request not found']);
         }
+    }
+
+    /**
+     * Deletes all requests by user ID.
+     *
+     * @param int $userId The ID of the user whose requests are to be deleted.
+     * @return ResponseInterface JSON response indicating the result of the operation.
+     */
+    public function deleteRequestsByUserId($userId) {
+
+        // Perform the delete operation
+        $success = $this->requestsModel->deleteByUserId($userId);
+
+        // Return the appropriate JSON response
+        if ($success) {
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Requests deleted successfully.']);
+        } else {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to delete requests.']);
+        }
+    }
+
+    /**
+     * Return a JSON error response.
+     *
+     * @param string $message
+     * @param int $status
+     * @return ResponseInterface
+     */
+    private function fail($message, $status) {
+        return $this->respond(['error' => $message], $status);
     }
 }

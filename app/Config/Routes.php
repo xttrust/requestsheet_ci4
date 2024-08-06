@@ -124,6 +124,9 @@ $routes->get('faq', 'Home::faq');
  */
 // Routes for requests
 $routes->get('/api/requests/sorted', 'Requests::getAllRequestsSorted');
+$routes->get('/api/requests/rejected', 'Requests::getAllRejectedRequests');
+$routes->delete('/api/requests/delete/user/(:num)', 'Requests::deleteRequestsByUserId/$1');
+
 $routes->get('/api/requests/(:segment)', 'Requests::getRequestById/$1');
 $routes->patch('/api/requests/(:segment)', 'Requests::updateRequest/$1');
 $routes->patch('/api/requests/approve/(:segment)', 'Requests::approveRequest/$1');

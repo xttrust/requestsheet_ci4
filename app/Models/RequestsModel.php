@@ -17,7 +17,7 @@ class RequestsModel extends Model {
     // Return type of results
     protected $returnType = 'array';
     // Enable or disable soft deletes
-    protected $useSoftDeletes = true;
+    protected $useSoftDeletes = false;
     // Fields that are allowed to be inserted or updated
     protected $allowedFields = [
         'dj_id', 'name', 'email', 'comment', 'status', 'song', 'votes', 'created_at', 'updated_at', 'deleted_at'
@@ -93,7 +93,9 @@ class RequestsModel extends Model {
      * @return array
      */
     public function getByStatus($status) {
-        return $this->where('status', $status)->findAll();
+        return $this->where('status', $status)
+                        ->orderBy('created_at', 'desc')
+                        ->findAll();
     }
 
     /**
@@ -105,5 +107,19 @@ class RequestsModel extends Model {
         return $this->orderBy('created_at', 'DESC')
                         ->orderBy('votes', 'DESC')
                         ->findAll();
+    }
+
+    /**
+     * Deletes all rows from the requests table by user ID.
+     *
+     * @param int $userId The ID of the user whose requests are to be deleted.
+     * @return bool True if the deletion was successful, false otherwise.
+     */
+    public function deleteByUserId($userId) {
+        // Perform the delete operation
+        $result = $this->where('dj_id', $userId)->where('status', 'rejected')->delete();
+
+        // Return the result of the delete operation
+        return $result ? true : false;
     }
 }
