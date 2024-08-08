@@ -8,7 +8,7 @@
                     <span class="icon-refresh"></span> Refresh
                 </button>
                 <button id="deleteRejectedListButton" class="btn btn-outline-danger"
-                        onclick="confirmDeleteRequests(<?= $loggedUser['id']; ?>)">
+                        onclick="confirmDeleteRequests(<?= $user['id']; ?>)">
                     <span class="icon-bin"></span> Clear all
                 </button>
             </div>

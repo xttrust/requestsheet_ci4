@@ -15,15 +15,6 @@ class Home extends BaseController {
         return $this->templates->frontend($data);
     }
 
-    public function profile($username) {
-        $data = [
-            'pageTitle' => 'User Profile: ' . $username . ' | Requestsheet',
-            'viewPath' => 'profile',
-            'loggedUser' => $this->appSecurity->getLoggedInUser()
-        ];
-        return $this->templates->frontend($data);
-    }
-
     public function test() {
         $userInput = "1super999"; // User-provided plain text password
 

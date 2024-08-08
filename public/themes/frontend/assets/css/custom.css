@@ -76,7 +76,20 @@
     margin-top: 100px;
 }
 
-
+.modal-body, 
+.modal-body p, 
+.modal-body h1, 
+.modal-body h2, 
+.modal-body h3, 
+.modal-body h4, 
+.modal-body h5, 
+.modal-body h6, 
+.modal-body a, 
+.modal-body span, 
+.modal-body div {
+    background-color: white !important;
+    color: #000000 !important; /* Explicitly set text color to black */
+}
 
 
 /** No media query since this is the default in Bootstrap */

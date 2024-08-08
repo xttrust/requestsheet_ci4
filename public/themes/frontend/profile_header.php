@@ -33,8 +33,14 @@
                                 <h2 class="modal-title" id="anouncementsModalLabel">Anouncements</h2>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body bg-white text-black">
-                                Anouncement 1
+                            <div class="modal-body bg-white text-dark">
+                                <div class="modal-body bg-white text-dark">
+                                    <?php foreach ($announcements as $ann): ?>
+                                        <div class="alert alert-danger" role="alert">
+                                            <?= $ann['content']; ?>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>

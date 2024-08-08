@@ -41,8 +41,11 @@ $routes->get('reset-password/reset-form/(:any)', 'ResetPassword::resetForm/$1');
 // Process new password submission (POST)
 $routes->post('reset-password/update-password', 'ResetPassword::updatePassword');
 
-// Test route for auth user
-$routes->get('profile/(:any)', 'Home::profile/$1');
+/*
+ * profile Routes
+ * Routes for ...
+ */
+$routes->get('profile/(:any)', 'Profile::user/$1');
 
 /*
  * Admin Routes
