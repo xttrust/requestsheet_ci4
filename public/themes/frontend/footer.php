@@ -156,8 +156,12 @@
 <!-- Main Theme JS File -->
 <script src="<?= $themeUrl; ?>assets/js/theme.js"></script>
 <!-- xttrust's custom JS File -->
-<script src="<?= $themeUrl; ?>assets/js/custom.js?time=<?= time(); ?>"></script>
-
+<?php
+$uri = service('uri');
+if ($uri->getSegment(1) == 'profile'):
+    ?>
+    <script src="<?= $themeUrl; ?>assets/js/profile-scripts.js?time=<?= time(); ?>"></script>
+<?php endif; ?>
 
 </body>
 
